@@ -1,5 +1,5 @@
 export function Login() {
   return (
-    <h1>Login Page</h1>
-  )
+    <h1 className="bg-red-500 text-white">Login Page</h1>
+  );
 }
