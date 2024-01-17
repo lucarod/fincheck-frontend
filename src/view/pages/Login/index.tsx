@@ -1,31 +1,36 @@
 import { Input } from '../../components/Input';
 import { Button } from '../../components/Button';
 import { AuthFormContainer } from '../../components/AuthFormContainer';
+import { useLoginController } from './useLoginController';
 
 export function Login() {
+  const { register, handleSubmit, errors } = useLoginController();
+
   return (
     <AuthFormContainer
       title="Entre em sua conta"
       subtitle="Novo por aqui?"
       linkText="Crie uma conta"
       linkHref="/register"
+      onSubmit={handleSubmit}
     >
       <Input
         type="email"
         placeholder="Email"
-        name="email"
+        {...register('email')}
+        error={errors.email?.message}
       />
       <Input
         type="password"
         placeholder="Senha"
-        name="password"
+        {...register('password')}
+        error={errors.password?.message}
       />
-
       <Button
         type="submit"
         className="mt-2"
       >
-          Entrar
+        Entrar
       </Button>
     </AuthFormContainer>
   );

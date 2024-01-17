@@ -29,13 +29,18 @@
     ],
     "quotes": [
       "error",
-      "single"
+      "single",
+      { "allowTemplateLiterals": true }
     ],
     "jsx-quotes": [
       "error",
       "prefer-double"
     ],
     "semi": [
+      "error",
+      "always"
+    ],
+    "object-curly-spacing": [
       "error",
       "always"
     ]

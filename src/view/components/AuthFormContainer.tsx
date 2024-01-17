@@ -7,6 +7,7 @@ interface AuthFormContainerProps {
   subtitle: string;
   linkText: string;
   linkHref: string;
+  onSubmit: () => void;
   children: ReactNode;
 }
 
@@ -15,7 +16,8 @@ export function AuthFormContainer({
   subtitle,
   linkText,
   linkHref,
-  children
+  onSubmit,
+  children,
 }: AuthFormContainerProps) {
   return (
     <>
@@ -34,7 +36,10 @@ export function AuthFormContainer({
           </Link>
         </p>
       </header>
-      <form className="mt-[60px] flex flex-col gap-4">
+      <form
+        onSubmit={onSubmit}
+        className="mt-[60px] flex flex-col gap-4"
+      >
         {children}
       </form>
     </>
