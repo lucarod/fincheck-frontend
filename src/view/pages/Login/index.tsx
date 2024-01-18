@@ -5,7 +5,7 @@ import { AuthFormContainer } from 'src/view/components/AuthFormContainer';
 import { useLoginController } from './useLoginController';
 
 export function Login() {
-  const { register, handleSubmit, errors } = useLoginController();
+  const { register, handleSubmit, errors, isPending } = useLoginController();
 
   return (
     <AuthFormContainer
@@ -30,6 +30,7 @@ export function Login() {
       <Button
         type="submit"
         className="mt-2"
+        isPending={isPending}
       >
         Entrar
       </Button>

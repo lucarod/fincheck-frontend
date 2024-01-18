@@ -2,6 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
+import { toast } from 'react-hot-toast';
 
 import { authService } from 'src/app/services/authService';
 import { SignupParams } from 'src/app/services/authService/signup';
@@ -32,9 +33,9 @@ export function useRegisterController() {
   const handleSubmit = hookFormSubmit(async (data) => {
     try {
       const { accessToken } = await mutateAsync(data);
-      console.log({ accessToken });
+      toast.success('Sucesso');
     } catch {
-      alert('Ocorreu um erro ao criar sua conta');
+      toast.error('Ocorreu um erro ao criar sua conta');
     }
   });
 

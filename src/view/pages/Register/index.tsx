@@ -5,7 +5,7 @@ import { AuthFormContainer } from 'src/view/components/AuthFormContainer';
 import { useRegisterController } from './useRegisterController';
 
 export function Register() {
-  const { register, handleSubmit, errors } = useRegisterController();
+  const { register, handleSubmit, errors, isPending } = useRegisterController();
 
   return (
     <AuthFormContainer
@@ -37,6 +37,7 @@ export function Register() {
       <Button
         type="submit"
         className="mt-2"
+        isPending={isPending}
       >
           Criar conta
       </Button>
