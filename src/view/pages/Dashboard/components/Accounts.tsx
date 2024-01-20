@@ -1,7 +1,71 @@
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+
+import { EyeIcon } from 'src/view/components/icons/EyeIcon';
+import { formatCurrency } from 'src/app/utils/formatCurrency';
+
+import { AccountCard } from './AccountCard';
+import { AccountsSliderNavigation } from './AccountsSliderNavigation';
+
+
 export function Accounts() {
   return (
-    <div className="bg-teal-900 rounded-2xl w-full h-full px-4 py-8 lg:p-10">
-      Accounts
+    <div className="bg-teal-900 rounded-2xl w-full h-full px-4 py-8 lg:p-10 flex flex-col">
+      <div className="flex flex-col gap-2">
+        <span className="tracking-[-0.5px] text-white">
+          Saldo total
+        </span>
+        <div className="flex items-center gap-2">
+          <strong className="text-[32px] leading-8 tracking-[-1px] text-white">
+            {formatCurrency(1000.23)}
+          </strong>
+          <button className="h-8 w-8 flex items-center justify-center">
+            <EyeIcon open />
+          </button>
+        </div>
+      </div>
+      <div className="flex-1 flex flex-col justify-end">
+        <div>
+          <Swiper
+            spaceBetween={16}
+            slidesPerView={2.15}
+          >
+            <div
+              className="flex items-center justify-between mb-4"
+              slot="container-start"
+            >
+              <strong className="text-white tracking-[-1px] text-lg font-bold">
+                Minhas contas
+              </strong>
+              <AccountsSliderNavigation />
+            </div>
+            <SwiperSlide>
+              <AccountCard
+                type="CHECKING"
+                color="#7950F2"
+                name="Nubank"
+                balance={1000.23}
+              />
+            </SwiperSlide>
+            <SwiperSlide>
+              <AccountCard
+                type="INVESTMENT"
+                color="#333"
+                name="XP Investimentos"
+                balance={300.57}
+              />
+            </SwiperSlide>
+            <SwiperSlide>
+              <AccountCard
+                type="CASH"
+                color="#0F0"
+                name="Carteira"
+                balance={122.4}
+              />
+            </SwiperSlide>
+          </Swiper>
+        </div>
+      </div>
     </div>
   );
 }
