@@ -6,11 +6,18 @@ import { formatCurrency } from 'src/app/utils/formatCurrency';
 
 import { AccountCard } from './AccountCard';
 import { AccountsSliderNavigation } from './AccountsSliderNavigation';
-
+import { useAccountsController } from './useAccountsController';
 
 export function Accounts() {
+  const { sliderState, setSliderState, windowWidth } = useAccountsController();
+
+  const slidesPerViewValue =
+    windowWidth >= 1024 || windowWidth < 768 && windowWidth >= 425
+      ? 2.15
+      : 1.25;
+
   return (
-    <div className="bg-teal-900 rounded-2xl w-full h-full px-4 py-8 lg:p-10 flex flex-col">
+    <div className="bg-teal-900 rounded-2xl w-full h-full px-4 py-8 md:p-10 flex flex-col">
       <div className="flex flex-col gap-2">
         <span className="tracking-[-0.5px] text-white">
           Saldo total
@@ -24,11 +31,17 @@ export function Accounts() {
           </button>
         </div>
       </div>
-      <div className="flex-1 flex flex-col justify-end">
+      <div className="flex-1 flex flex-col justify-end mt-10 md:mt-0">
         <div>
           <Swiper
             spaceBetween={16}
-            slidesPerView={2.15}
+            slidesPerView={slidesPerViewValue}
+            onSlideChange={({ isBeginning, isEnd }) => {
+              setSliderState({
+                isBeginning,
+                isEnd
+              });
+            }}
           >
             <div
               className="flex items-center justify-between mb-4"
@@ -37,7 +50,10 @@ export function Accounts() {
               <strong className="text-white tracking-[-1px] text-lg font-bold">
                 Minhas contas
               </strong>
-              <AccountsSliderNavigation />
+              <AccountsSliderNavigation
+                isBeggining={sliderState.isBeginning}
+                isEnd={sliderState.isEnd}
+              />
             </div>
             <SwiperSlide>
               <AccountCard
