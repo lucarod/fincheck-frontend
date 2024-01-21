@@ -5,7 +5,7 @@ import { EyeIcon } from 'src/view/components/icons/EyeIcon';
 import { formatCurrency } from 'src/app/utils/formatCurrency';
 
 import { AccountCard } from './AccountCard';
-import { AccountsSliderNavigation } from './AccountsSliderNavigation';
+import { SliderNavigation } from './SliderNavigation';
 import { useAccountsController } from './useAccountsController';
 
 export function Accounts() {
@@ -18,7 +18,7 @@ export function Accounts() {
 
   return (
     <div className="bg-teal-900 rounded-2xl w-full h-full px-4 py-8 md:p-10 flex flex-col">
-      <div className="flex flex-col gap-2">
+      <header className="flex flex-col gap-2">
         <span className="tracking-[-0.5px] text-white">
           Saldo total
         </span>
@@ -30,7 +30,7 @@ export function Accounts() {
             <EyeIcon open />
           </button>
         </div>
-      </div>
+      </header>
       <div className="flex-1 flex flex-col justify-end mt-10 md:mt-0">
         <div>
           <Swiper
@@ -50,7 +50,7 @@ export function Accounts() {
               <strong className="text-white tracking-[-1px] text-lg font-bold">
                 Minhas contas
               </strong>
-              <AccountsSliderNavigation
+              <SliderNavigation
                 isBeggining={sliderState.isBeginning}
                 isEnd={sliderState.isEnd}
               />
