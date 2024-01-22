@@ -11,7 +11,7 @@ import { useAuth } from 'src/app/hooks/useAuth';
 const schema = z.object({
   name: z.string().min(1, 'Nome é obrigatório'),
   email: z.string().email('Informe um email válido'),
-  password: z.string().min(8, 'Senha deve conter pelo menos 8 dígitos')
+  password: z.string().min(8, 'Senha deve conter pelo menos 8 dígitos'),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -20,9 +20,9 @@ export function useRegisterController() {
   const {
     handleSubmit: hookFormSubmit,
     register,
-    formState: { errors }
+    formState: { errors },
   } = useForm<FormData>({
-    resolver: zodResolver(schema)
+    resolver: zodResolver(schema),
   });
 
   const { mutateAsync, isPending } = useMutation({

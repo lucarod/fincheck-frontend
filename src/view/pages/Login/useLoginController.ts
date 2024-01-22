@@ -10,7 +10,7 @@ import { useAuth } from 'src/app/hooks/useAuth';
 
 const schema = z.object({
   email: z.string().email('Informe um email válido'),
-  password: z.string().min(1, 'Informe sua senha')
+  password: z.string().min(1, 'Informe sua senha'),
 });
 
 type FormData = z.infer<typeof schema>;
