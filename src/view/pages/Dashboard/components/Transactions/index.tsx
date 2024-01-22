@@ -6,6 +6,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { MONTHS } from 'src/app/config/constants';
 import { cn } from 'src/app/utils/cn';
 import { formatCurrency } from 'src/app/utils/formatCurrency';
+import emptyState from 'src/assets/empty-state.svg';
 
 import { Spinner } from 'src/view/components/Spinner';
 import { FilterIcon } from 'src/view/components/icons/FilterIcon';
@@ -17,16 +18,23 @@ import { SliderNavigation } from './SliderNavigation';
 import { useTransactionsController } from './useTransactionsController';
 
 export function Transactions() {
-  const { areValuesVisible, isLoading } = useTransactionsController();
+  const {
+    areValuesVisible,
+    isInitialLoading,
+    isLoading,
+    transactions,
+  } = useTransactionsController();
+
+  const hasTransactions = !!transactions.length;
 
   return (
     <div className="bg-gray-100 rounded-2xl w-full h-full px-4 pt-6 pb-32 md:py-8 lg:p-10 flex flex-col">
-      {isLoading && (
+      {isInitialLoading && (
         <div className="flex items-center justify-center h-full">
           <Spinner className="w-10 h-10" />
         </div>
       )}
-      {!isLoading && (
+      {!isInitialLoading && (
         <>
           <header className="">
             <div className="flex items-center justify-between">
@@ -66,186 +74,65 @@ export function Transactions() {
           </header>
 
           <div className="mt-4 space-y-2 flex-1 overflow-y-auto max-h-96 md:max-h-none">
-            <div className="p-4 rounded-2xl bg-white flex items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <CategoryIcon type="expense" category="food" />
-                <div className="flex flex-col">
-                  <b className="font-bold tracking-[-0.5px] text-gray-800">
+            {isLoading && (
+              <div className="flex flex-col h-full items-center justify-center">
+                <Spinner className="w-10 h-10 -mt-16" />
+              </div>
+            )}
+
+            {(!hasTransactions && !isLoading) && (
+              <div className="flex flex-col h-full items-center justify-center">
+                <img src={emptyState} alt="Empty State" />
+                <p className="text-gray-700">
+                  Não encontramos nenhuma transação!
+                </p>
+              </div>
+            )}
+
+            {(hasTransactions && !isLoading) && (
+              <>
+                <div className="p-4 rounded-2xl bg-white flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <CategoryIcon type="expense" category="food" />
+                    <div className="flex flex-col">
+                      <b className="font-bold tracking-[-0.5px] text-gray-800">
                     Almoço
-                  </b>
-                  <small className="font-sm text-gray-600">
+                      </b>
+                      <small className="font-sm text-gray-600">
                     04/06/2023
-                  </small>
+                      </small>
+                    </div>
+                  </div>
+                  <span
+                    className={cn(
+                      'text-red-800 tracking-[-0.5px] font-medium',
+                      !areValuesVisible && 'blur-sm'
+                    )}>
+                    {formatCurrency(100)}
+                  </span>
                 </div>
-              </div>
-              <span
-                className={cn(
-                  'text-red-800 tracking-[-0.5px] font-medium',
-                  !areValuesVisible && 'blur-sm'
-                )}>
-                {formatCurrency(100)}
-              </span>
-            </div>
-            <div className="p-4 rounded-2xl bg-white flex items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <CategoryIcon type="expense" category="food" />
-                <div className="flex flex-col">
-                  <b className="font-bold tracking-[-0.5px] text-gray-800">
+                <div className="p-4 rounded-2xl bg-white flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <CategoryIcon type="expense" category="food" />
+                    <div className="flex flex-col">
+                      <b className="font-bold tracking-[-0.5px] text-gray-800">
                     Almoço
-                  </b>
-                  <small className="font-sm text-gray-600">
+                      </b>
+                      <small className="font-sm text-gray-600">
                     04/06/2023
-                  </small>
+                      </small>
+                    </div>
+                  </div>
+                  <span
+                    className={cn(
+                      'text-red-800 tracking-[-0.5px] font-medium',
+                      !areValuesVisible && 'blur-sm'
+                    )}>
+                    {formatCurrency(100)}
+                  </span>
                 </div>
-              </div>
-              <span
-                className={cn(
-                  'text-red-800 tracking-[-0.5px] font-medium',
-                  !areValuesVisible && 'blur-sm'
-                )}>
-                {formatCurrency(100)}
-              </span>
-            </div>
-            <div className="p-4 rounded-2xl bg-white flex items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <CategoryIcon type="expense" category="food" />
-                <div className="flex flex-col">
-                  <b className="font-bold tracking-[-0.5px] text-gray-800">
-                Almoço
-                  </b>
-                  <small className="font-sm text-gray-600">
-                04/06/2023
-                  </small>
-                </div>
-              </div>
-              <span
-                className={cn(
-                  'text-red-800 tracking-[-0.5px] font-medium',
-                  !areValuesVisible && 'blur-sm'
-                )}>
-                {formatCurrency(100)}
-              </span>
-            </div>
-            <div className="p-4 rounded-2xl bg-white flex items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <CategoryIcon type="expense" category="food" />
-                <div className="flex flex-col">
-                  <b className="font-bold tracking-[-0.5px] text-gray-800">
-                Almoço
-                  </b>
-                  <small className="font-sm text-gray-600">
-                04/06/2023
-                  </small>
-                </div>
-              </div>
-              <span
-                className={cn(
-                  'text-red-800 tracking-[-0.5px] font-medium',
-                  !areValuesVisible && 'blur-sm'
-                )}>
-                {formatCurrency(100)}
-              </span>
-            </div>
-            <div className="p-4 rounded-2xl bg-white flex items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <CategoryIcon type="expense" category="food" />
-                <div className="flex flex-col">
-                  <b className="font-bold tracking-[-0.5px] text-gray-800">
-                Almoço
-                  </b>
-                  <small className="font-sm text-gray-600">
-                04/06/2023
-                  </small>
-                </div>
-              </div>
-              <span
-                className={cn(
-                  'text-red-800 tracking-[-0.5px] font-medium',
-                  !areValuesVisible && 'blur-sm'
-                )}>
-                {formatCurrency(100)}
-              </span>
-            </div>
-            <div className="p-4 rounded-2xl bg-white flex items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <CategoryIcon type="expense" category="food" />
-                <div className="flex flex-col">
-                  <b className="font-bold tracking-[-0.5px] text-gray-800">
-                Almoço
-                  </b>
-                  <small className="font-sm text-gray-600">
-                04/06/2023
-                  </small>
-                </div>
-              </div>
-              <span
-                className={cn(
-                  'text-red-800 tracking-[-0.5px] font-medium',
-                  !areValuesVisible && 'blur-sm'
-                )}>
-                {formatCurrency(100)}
-              </span>
-            </div>
-            <div className="p-4 rounded-2xl bg-white flex items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <CategoryIcon type="expense" category="food" />
-                <div className="flex flex-col">
-                  <b className="font-bold tracking-[-0.5px] text-gray-800">
-                Almoço
-                  </b>
-                  <small className="font-sm text-gray-600">
-                04/06/2023
-                  </small>
-                </div>
-              </div>
-              <span
-                className={cn(
-                  'text-red-800 tracking-[-0.5px] font-medium',
-                  !areValuesVisible && 'blur-sm'
-                )}>
-                {formatCurrency(100)}
-              </span>
-            </div>
-            <div className="p-4 rounded-2xl bg-white flex items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <CategoryIcon type="expense" category="food" />
-                <div className="flex flex-col">
-                  <b className="font-bold tracking-[-0.5px] text-gray-800">
-                Almoço
-                  </b>
-                  <small className="font-sm text-gray-600">
-                04/06/2023
-                  </small>
-                </div>
-              </div>
-              <span
-                className={cn(
-                  'text-red-800 tracking-[-0.5px] font-medium',
-                  !areValuesVisible && 'blur-sm'
-                )}>
-                {formatCurrency(100)}
-              </span>
-            </div>
-            <div className="p-4 rounded-2xl bg-white flex items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <CategoryIcon type="expense" category="food" />
-                <div className="flex flex-col">
-                  <b className="font-bold tracking-[-0.5px] text-gray-800">
-                Almoço
-                  </b>
-                  <small className="font-sm text-gray-600">
-                04/06/2023
-                  </small>
-                </div>
-              </div>
-              <span
-                className={cn(
-                  'text-red-800 tracking-[-0.5px] font-medium',
-                  !areValuesVisible && 'blur-sm'
-                )}>
-                {formatCurrency(100)}
-              </span>
-            </div>
+              </>
+            )}
           </div>
         </>
       )}
