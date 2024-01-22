@@ -30,7 +30,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
     queryKey: queryKeys.USERS_ME,
     queryFn: () => usersService.me(),
     enabled: isSignedIn,
-    staleTime: Infinity
+    staleTime: Infinity,
   });
 
   const queryClient = useQueryClient();
@@ -43,7 +43,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
   const signout = useCallback(() => {
     localStorage.removeItem(localStorageKeys.ACCESS_TOKEN);
     queryClient.removeQueries({
-      queryKey: queryKeys.USERS_ME
+      queryKey: queryKeys.USERS_ME,
     });
     setIsignedIn(false);
   }, []);
@@ -59,7 +59,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
     <AuthContext.Provider value={{
       isSignedIn: isSuccess && isSignedIn,
       signin,
-      signout
+      signout,
     }}>
       <LaunchScreen isLoading={isFetching} />
       {!isFetching && children}
