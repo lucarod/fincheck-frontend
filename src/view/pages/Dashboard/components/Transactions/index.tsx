@@ -1,6 +1,5 @@
 import 'swiper/css';
 
-import { ChevronDownIcon } from '@radix-ui/react-icons';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { MONTHS } from 'src/app/config/constants';
@@ -10,12 +9,12 @@ import emptyState from 'src/assets/empty-state.svg';
 
 import { Spinner } from 'src/view/components/Spinner';
 import { FilterIcon } from 'src/view/components/icons/FilterIcon';
-import { TransactionsIcon } from 'src/view/components/icons/TransactionsIcon';
 import { CategoryIcon } from 'src/view/components/icons/categories/CategoryIcon';
 
 import { SliderOption } from './SliderOption';
 import { SliderNavigation } from './SliderNavigation';
 import { useTransactionsController } from './useTransactionsController';
+import { TransactionTypeDropdown } from './TransactionTypeDropdown';
 
 export function Transactions() {
   const {
@@ -38,13 +37,7 @@ export function Transactions() {
         <>
           <header className="">
             <div className="flex items-center justify-between">
-              <button className="flex items-center gap-2 py-3">
-                <TransactionsIcon />
-                <span className="text-gray-800 text-sm tracking-[-0.5px] font-medium">
-                  Transações
-                </span>
-                <ChevronDownIcon className="text-gray-900 w-6 h-6" />
-              </button>
+              <TransactionTypeDropdown />
               <button className="w-12 h-12 flex items-center justify-center">
                 <FilterIcon />
               </button>
@@ -96,10 +89,10 @@ export function Transactions() {
                     <CategoryIcon type="expense" category="food" />
                     <div className="flex flex-col">
                       <b className="font-bold tracking-[-0.5px] text-gray-800">
-                    Almoço
+                        Almoço
                       </b>
                       <small className="font-sm text-gray-600">
-                    04/06/2023
+                        04/06/2023
                       </small>
                     </div>
                   </div>

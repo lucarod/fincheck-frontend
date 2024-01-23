@@ -18,12 +18,12 @@ export function UserMenu() {
           <span className="text-sm tracking-[-0.5px] text-teal-900 font-medium">LR</span>
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-32">
+      <DropdownMenuContent className="w-32 mr-8" sideOffset={8}>
         <DropdownMenuItem
           onSelect={signout}
-          className="flex items-center justify-between cursor-pointer"
+          className="flex items-center justify-between"
         >
-            Sair
+          Sair
           <ExitIcon className="w-4 h-4" />
         </DropdownMenuItem>
       </DropdownMenuContent>
