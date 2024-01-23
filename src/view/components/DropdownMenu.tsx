@@ -6,6 +6,7 @@ interface DropdownMenuContentProps {
   children: ReactNode;
   className?: string;
   sideOffset?: number | undefined;
+  align?: 'center' | 'start' | 'end' | undefined;
 }
 
 interface DropdownMenuItemProps {
@@ -31,14 +32,16 @@ function DropdownMenuContent({
   children,
   className,
   sideOffset = 4,
+  align,
 }: DropdownMenuContentProps) {
   return (
     <DropdownMenuPortal>
       <DropdownMenuPrimitive.Content
         sideOffset={sideOffset}
+        align={align}
         className={cn(
           `z-50 rounded-2xl p-2 bg-white space-y-2 shadow-[0px_11px_20px_0px_rgba(0,0,0,0.10)]`,
-          'data-[side=bottom]:animate-slide-up-and-fade',
+          'data-[side=bottom]:animate-slide-up-and-fade data-[side=top]:animate-slide-down-and-fade',
           className
         )}
       >

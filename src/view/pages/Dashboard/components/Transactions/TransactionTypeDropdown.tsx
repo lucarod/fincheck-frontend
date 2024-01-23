@@ -18,6 +18,7 @@ export function TransactionTypeDropdown() {
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
+        align="start"
         className="w-[279px]"
       >
         <DropdownMenuItem className="gap-2">
