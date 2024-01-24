@@ -12,7 +12,7 @@ export function TransactionTypeDropdown() {
         <button className="flex items-center gap-2 py-3">
           <TransactionsIcon />
           <span className="text-gray-800 text-sm tracking-[-0.5px] font-medium">
-        Transações
+            Transações
           </span>
           <ChevronDownIcon className="text-gray-900 w-6 h-6" />
         </button>

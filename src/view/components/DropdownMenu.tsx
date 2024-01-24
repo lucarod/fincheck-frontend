@@ -21,6 +21,7 @@ const DropdownMenuPortal = DropdownMenuPrimitive.Portal;
 function DropdownMenuTrigger({ children }: { children: ReactNode }) {
   return (
     <DropdownMenuPrimitive.Trigger
+      asChild
       className="outline-none select-none"
     >
       {children}

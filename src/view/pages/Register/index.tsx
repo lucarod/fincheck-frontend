@@ -39,7 +39,7 @@ export function Register() {
         className="mt-2"
         isPending={isPending}
       >
-          Criar conta
+        Criar conta
       </Button>
     </AuthFormContainer>
   );
