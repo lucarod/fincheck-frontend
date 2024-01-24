@@ -16,7 +16,6 @@ interface DropdownMenuItemProps {
 }
 
 const DropdownMenu = DropdownMenuPrimitive.Root;
-const DropdownMenuPortal = DropdownMenuPrimitive.Portal;
 
 function DropdownMenuTrigger({ children }: { children: ReactNode }) {
   return (
@@ -36,7 +35,7 @@ function DropdownMenuContent({
   align,
 }: DropdownMenuContentProps) {
   return (
-    <DropdownMenuPortal>
+    <DropdownMenuPrimitive.Portal>
       <DropdownMenuPrimitive.Content
         sideOffset={sideOffset}
         align={align}
@@ -48,7 +47,7 @@ function DropdownMenuContent({
       >
         {children}
       </DropdownMenuPrimitive.Content>
-    </DropdownMenuPortal>
+    </DropdownMenuPrimitive.Portal>
   );
 }
 
@@ -62,7 +61,7 @@ function DropdownMenuItem({
       onSelect={onSelect}
       className={cn(
         `relative cursor-default select-none outline-none min-h-12 flex items-center p-2 text-sm text-gray-800
-        hover:bg-gray-50 rounded-lg transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50
+        rounded-lg transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50
         focus:bg-accent focus:text-accent-foreground`,
         className
       )}
@@ -75,7 +74,6 @@ function DropdownMenuItem({
 export {
   DropdownMenu,
   DropdownMenuTrigger,
-  DropdownMenuPortal,
   DropdownMenuContent,
   DropdownMenuItem,
 };

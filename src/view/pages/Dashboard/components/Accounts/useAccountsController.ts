@@ -10,7 +10,11 @@ export function useAccountsController() {
   });
 
   const windowWidth = useWindowWidth();
-  const { areValuesVisible, toggleValuesVisibility } = useDashboard();
+  const {
+    areValuesVisible,
+    toggleValuesVisibility,
+    openNewAccountModal,
+  } = useDashboard();
 
   const slidesPerViewValue =
     windowWidth >= 1024 || windowWidth < 768 && windowWidth >= 425
@@ -23,6 +27,7 @@ export function useAccountsController() {
     slidesPerViewValue,
     areValuesVisible,
     toggleValuesVisibility,
+    openNewAccountModal,
     isLoading: false,
     accounts: [],
   };

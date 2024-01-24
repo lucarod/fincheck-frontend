@@ -2,7 +2,10 @@ import { ReactNode, createContext, useCallback, useEffect, useState } from 'reac
 
 interface DashboardContextValue {
   areValuesVisible: boolean;
+  isNewAccountModalOpen: boolean;
   toggleValuesVisibility: () => void;
+  openNewAccountModal: () => void;
+  closeNewAccountModal: () => void;
 }
 
 export const DashboardContext = createContext<DashboardContextValue>(
@@ -11,6 +14,7 @@ export const DashboardContext = createContext<DashboardContextValue>(
 
 export function DashboardProvider({ children }: {children: ReactNode}) {
   const [areValuesVisible, setAreValuesVisible] = useState(true);
+  const [isNewAccountModalOpen, setIsNewAccountModalOpen] = useState(true);
 
   const toggleValuesVisibility = useCallback(() => {
     localStorage.setItem(
@@ -19,6 +23,14 @@ export function DashboardProvider({ children }: {children: ReactNode}) {
     );
     setAreValuesVisible(prevState => !prevState);
   }, [areValuesVisible]);
+
+  const openNewAccountModal = useCallback(() => {
+    setIsNewAccountModalOpen(true);
+  }, []);
+
+  const closeNewAccountModal = useCallback(() => {
+    setIsNewAccountModalOpen(false);
+  }, []);
 
   useEffect(() => {
     const visibilityStorage = localStorage.getItem('fincheck:areValuesVisible');
@@ -44,7 +56,10 @@ export function DashboardProvider({ children }: {children: ReactNode}) {
   return (
     <DashboardContext.Provider value={{
       areValuesVisible,
-      toggleValuesVisibility
+      isNewAccountModalOpen,
+      toggleValuesVisibility,
+      openNewAccountModal,
+      closeNewAccountModal,
     }}>
       {children}
     </DashboardContext.Provider>

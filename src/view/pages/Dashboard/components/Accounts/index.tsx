@@ -20,6 +20,7 @@ export function Accounts() {
     slidesPerViewValue,
     areValuesVisible,
     toggleValuesVisibility,
+    openNewAccountModal,
     isLoading,
     accounts,
   } = useAccountsController();
@@ -65,6 +66,7 @@ export function Accounts() {
                   </strong>
                 </div>
                 <button
+                  onClick={openNewAccountModal}
                   className="mt-4 h-52 rounded-2xl border-2 border-dashed border-teal-600
                   flex flex-col items-center justify-center gap-4 text-white"
                 >

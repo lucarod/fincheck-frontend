@@ -4,7 +4,7 @@ import { cn } from 'src/app/utils/cn';
 import { Button } from 'src/view/components/Button';
 import { Modal } from 'src/view/components/Modal';
 
-import { useFiltersModal } from './useFiltersModal';
+import { useFiltersModal } from './useFiltersModalController';
 
 interface FilterModalProps {
   open: boolean;

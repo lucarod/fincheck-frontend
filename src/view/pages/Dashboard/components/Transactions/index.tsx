@@ -11,11 +11,12 @@ import { Spinner } from 'src/view/components/Spinner';
 import { FilterIcon } from 'src/view/components/icons/FilterIcon';
 import { CategoryIcon } from 'src/view/components/icons/categories/CategoryIcon';
 
+import { FiltersModal } from '../../modals/FiltersModal';
+
 import { SliderOption } from './SliderOption';
 import { SliderNavigation } from './SliderNavigation';
 import { useTransactionsController } from './useTransactionsController';
 import { TransactionTypeDropdown } from './TransactionTypeDropdown';
-import { FiltersModal } from './FiltersModal';
 
 export function Transactions() {
   const {
