@@ -7,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from 'src/view/components/Select';
+import { SelectProvider } from 'src/view/components/Select/SelectContext';
 
 interface AccountTypeDropdownProps {
   error?: string;
@@ -14,10 +15,10 @@ interface AccountTypeDropdownProps {
 
 export function AccountTypeSelect({ error }: AccountTypeDropdownProps) {
   return (
-    <div>
+    <SelectProvider>
       <Select>
         <SelectTrigger error={error}>
-          <SelectValue placeholder="Teste" />
+          <SelectValue placeholder="Selecione..."  />
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="investment">
@@ -33,6 +34,6 @@ export function AccountTypeSelect({ error }: AccountTypeDropdownProps) {
       </Select>
 
       <InputErrorLabel error={error} />
-    </div>
+    </SelectProvider>
   );
 }

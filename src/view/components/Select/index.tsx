@@ -3,11 +3,20 @@ import * as SelectPrimitive from '@radix-ui/react-select';
 import { ChevronDownIcon } from '@radix-ui/react-icons';
 
 import { cn } from 'src/app/utils/cn';
+import { useSelect } from './SelectContext';
+
+interface SelectRootProps {
+  children: ReactNode;
+}
 
 interface SelectTriggerProps {
   children: ReactNode;
   className?: string;
   error?: string;
+}
+
+interface SelectValueProps {
+  placeholder?: string;
 }
 
 interface SelectContentProps {
@@ -23,9 +32,17 @@ interface SelectItemProps {
   className?: string;
 }
 
-const Select = SelectPrimitive.Root;
 const SelectGroup = SelectPrimitive.Group;
-const SelectValue = SelectPrimitive.Value;
+
+function Select({ children }: SelectRootProps) {
+  const { handleSelectValue } = useSelect();
+
+  return (
+    <SelectPrimitive.Root onValueChange={handleSelectValue}>
+      {children}
+    </SelectPrimitive.Root>
+  );
+}
 
 function SelectTrigger({ children, className, error }: SelectTriggerProps) {
   return (
@@ -33,7 +50,7 @@ function SelectTrigger({ children, className, error }: SelectTriggerProps) {
       className={cn(
         'bg-white w-full rounded-lg border border-gray-500 px-3 h-[52px]',
         'text-gray-800 text-sm placeholder-shown:pt-0 focus:border-gray-800',
-        'relative text-left transition-all outline-none',
+        'relative text-left transition-all outline-none pt-4',
         error && '!border-red-900',
         className
       )}
@@ -46,6 +63,23 @@ function SelectTrigger({ children, className, error }: SelectTriggerProps) {
         <ChevronDownIcon className="w-6 h-6 text-gray-800" />
       </SelectPrimitive.Icon>
     </SelectPrimitive.Trigger>
+  );
+}
+
+function SelectValue({ placeholder }: SelectValueProps) {
+  const { selectedValue } = useSelect();
+
+  return (
+    <>
+      <label className={cn(
+        'absolute top-1/2 -translate-y-1/2 cursor-pointer pointer-events-none',
+        'text-gray-700 text-base transition-all',
+        selectedValue && 'text-xs top-3.5'
+      )}>
+        {placeholder}
+      </label>
+      <SelectPrimitive.Value />
+    </>
   );
 }
 
