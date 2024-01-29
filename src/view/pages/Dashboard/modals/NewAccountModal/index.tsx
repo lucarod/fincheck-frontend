@@ -5,6 +5,7 @@ import { InputCurrency } from 'src/view/components/InputCurrency';
 import { Input } from 'src/view/components/Input';
 
 import { AccountTypeSelect } from './AccountTypeSelect';
+import { ColorsDropdownInput } from 'src/view/components/ColorsDropdownInput';
 
 export function NewAccountModal() {
   const {
@@ -34,6 +35,8 @@ export function NewAccountModal() {
           />
 
           <AccountTypeSelect />
+
+          <ColorsDropdownInput />
         </fieldset>
       </form>
     </Modal>
