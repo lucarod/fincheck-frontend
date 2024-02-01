@@ -3,9 +3,10 @@ import { Modal } from 'src/view/components/Modal';
 import { useNewAccountModalController } from './useNewAccountModalController';
 import { InputCurrency } from 'src/view/components/InputCurrency';
 import { Input } from 'src/view/components/Input';
-
-import { AccountTypeSelect } from './AccountTypeSelect';
 import { ColorsDropdownInput } from 'src/view/components/ColorsDropdownInput';
+
+import { AccountTypeSelect } from '../../selects/AccountTypeSelect';
+import { Button } from 'src/view/components/Button';
 
 export function NewAccountModal() {
   const {
@@ -35,9 +36,12 @@ export function NewAccountModal() {
           />
 
           <AccountTypeSelect />
-
           <ColorsDropdownInput />
         </fieldset>
+
+        <Button type="submit" className="w-full mt-6">
+          Criar
+        </Button>
       </form>
     </Modal>
   );

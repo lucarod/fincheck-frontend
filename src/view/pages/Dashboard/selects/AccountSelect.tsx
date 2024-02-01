@@ -9,26 +9,28 @@ import {
 } from 'src/view/components/Select';
 import { SelectProvider } from 'src/view/components/Select/SelectContext';
 
-interface AccountTypeDropdownProps {
+interface AccountSelectProps {
+  type: 'INCOME' | 'EXPENSE' | null;
   error?: string;
 }
 
-export function AccountTypeSelect({ error }: AccountTypeDropdownProps) {
+export function AccountSelect({ type, error }: AccountSelectProps) {
+  const isExpense = type === 'EXPENSE';
+
   return (
     <SelectProvider>
       <Select>
         <SelectTrigger error={error}>
-          <SelectValue placeholder="Selecione..."  />
+          <SelectValue
+            placeholder={isExpense ? 'Pagar com' : 'Receber na conta' }
+          />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="investment">
-          Investimento
+          <SelectItem value="Nubank">
+            Nubank
           </SelectItem>
-          <SelectItem value="cash">
-          Dinheiro físico
-          </SelectItem>
-          <SelectItem value="receiving">
-          Conta corrente
+          <SelectItem value="XP Investimentos">
+            XP Investimentos
           </SelectItem>
         </SelectContent>
       </Select>
