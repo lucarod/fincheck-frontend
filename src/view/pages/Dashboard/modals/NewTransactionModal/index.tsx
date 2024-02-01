@@ -2,6 +2,7 @@ import { Modal } from 'src/view/components/Modal';
 import { InputCurrency } from 'src/view/components/InputCurrency';
 import { Input } from 'src/view/components/Input';
 import { Button } from 'src/view/components/Button';
+import { DatePickerInput } from 'src/view/components/DatePickerInput';
 
 import { useNewTransactionModalController } from './useNewTransactionModalController';
 import { CategorySelect } from '../../selects/CategorySelect';
@@ -41,6 +42,7 @@ export function NewTransactionModal() {
 
           <CategorySelect />
           <AccountSelect type={newTransactionType} />
+          <DatePickerInput />
         </fieldset>
 
         <Button type="submit" className="w-full mt-6">
