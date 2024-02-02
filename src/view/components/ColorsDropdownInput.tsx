@@ -18,13 +18,22 @@ import {
 interface ColorsDropdownInputProps {
   error?: string;
   className?: string;
+  onChange?: (color: string) => void;
+  value?: string;
 }
 
-export function ColorsDropdownInput({ error, className }: ColorsDropdownInputProps) {
-  const [selectedColor, setSelectedColor] = useState<null | Color>(null);
+export function ColorsDropdownInput({ error, className, onChange, value }: ColorsDropdownInputProps) {
+  const [selectedColor, setSelectedColor] = useState<null | Color>(() => {
+    if (!value) {
+      return null;
+    }
+
+    return COLORS.find((color) => color.color === value) ?? null;
+  });
 
   function handleSelect(color: Color) {
     setSelectedColor(color);
+    onChange?.(color.color);
   }
 
   return (

@@ -1,4 +1,5 @@
 import { InputErrorLabel } from 'src/view/components/InputErrorLabel';
+import { SelectProvider } from 'src/view/components/Select/SelectContext';
 
 import {
   Select,
@@ -7,27 +8,28 @@ import {
   SelectTrigger,
   SelectValue,
 } from 'src/view/components/Select';
-import { SelectProvider } from 'src/view/components/Select/SelectContext';
 
 interface AccountTypeSelectProps {
   error?: string;
+  onChange?: (value: string) => void;
+  value?: string;
 }
 
-export function AccountTypeSelect({ error }: AccountTypeSelectProps) {
+export function AccountTypeSelect({ error, onChange, value }: AccountTypeSelectProps) {
   return (
-    <SelectProvider>
+    <SelectProvider defaultValue={value} onChange={onChange}>
       <Select>
         <SelectTrigger error={error}>
           <SelectValue placeholder="Tipo"  />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="investment">
+          <SelectItem value="INVESTMENT">
           Investimento
           </SelectItem>
-          <SelectItem value="cash">
+          <SelectItem value="CASH">
           Dinheiro físico
           </SelectItem>
-          <SelectItem value="receiving">
+          <SelectItem value="CHECKING">
           Conta corrente
           </SelectItem>
         </SelectContent>

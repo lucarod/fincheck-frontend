@@ -35,10 +35,10 @@ interface SelectItemProps {
 const SelectGroup = SelectPrimitive.Group;
 
 function Select({ children }: SelectRootProps) {
-  const { handleSelectValue } = useSelect();
+  const { selectedValue, handleSelectValue } = useSelect();
 
   return (
-    <SelectPrimitive.Root onValueChange={handleSelectValue}>
+    <SelectPrimitive.Root onValueChange={handleSelectValue} value={selectedValue}>
       {children}
     </SelectPrimitive.Root>
   );
