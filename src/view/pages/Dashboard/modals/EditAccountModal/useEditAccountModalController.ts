@@ -1,18 +1,17 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import { queryKeys } from 'src/app/config/queryKeys';
 import { bankAccountService } from 'src/app/services/bankAccountService';
-import { BankAccountParams } from 'src/app/services/bankAccountService/create';
+import { UpdateBankAccountParams } from 'src/app/services/bankAccountService/update';
 
 import { useDashboard } from '../../components/DashboardContext/useDashboard';
-import { queryKeys } from 'src/app/config/queryKeys';
 
 const schema = z.object({
-  initialBalance: z.number().min(1, 'Saldo inicial é obrigatório'),
   name: z.string().min(1, 'Nome da conta é obrigatório'),
   type: z.enum(['INVESTMENT', 'CASH', 'CHECKING']),
   color: z.string().min(1, 'Cor da conta é obrigatório'),
@@ -21,6 +20,8 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 export function useEditAccountModalController() {
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
   const {
     isEditAccountModalOpen,
     accountBeingEdited,
@@ -35,38 +36,82 @@ export function useEditAccountModalController() {
     reset,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
+    defaultValues: {
+      color: accountBeingEdited?.color,
+      name: accountBeingEdited?.name,
+      type: accountBeingEdited?.type,
+    },
   });
 
   const queryClient = useQueryClient();
-  const { isPending, mutateAsync } = useMutation({
-    mutationFn: (data: BankAccountParams) => bankAccountService.create(data),
+  const {
+    isPending: isUpdatePending,
+    mutateAsync: updateAccount,
+  } = useMutation({
+    mutationFn: (data: UpdateBankAccountParams) => bankAccountService.update(data),
+  });
+  const {
+    isPending: isDeletePending,
+    mutateAsync: removeAccount,
+  } = useMutation({
+    mutationFn: (bankAccountId: string) => bankAccountService.remove(bankAccountId),
   });
 
   useEffect(() => {
     reset();
   }, [isSubmitSuccessful]);
 
-  const handleSubmit = hookFormSubmit(async (data) => {
+  const handleUpdateAccount = hookFormSubmit(async (data) => {
     try {
-      await mutateAsync(data);
+      await updateAccount({
+        ...data,
+        id: accountBeingEdited!.id,
+      });
       queryClient.invalidateQueries({
         queryKey: queryKeys.BANK_ACCOUNTS,
       });
-      toast.success('Conta cadastrada com sucesso!');
+      toast.success('Conta editada com sucesso!');
       closeEditAccountModal();
     } catch {
-      toast.error('Houve um erro ao cadastrar sua conta!');
+      toast.error('Houve um erro ao salvar as alterações');
     }
   });
+
+  async function handleDeleteAccount() {
+    try {
+      await removeAccount(accountBeingEdited!.id);
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.BANK_ACCOUNTS,
+      });
+      toast.success('Conta deletada com sucesso!');
+      closeEditAccountModal();
+    } catch {
+      toast.error('Houve um erro ao deletar sua conta');
+    }
+  }
+
+  function openDeleteModal() {
+    setIsDeleteModalOpen(true);
+  }
+
+  function closeDeleteModal() {
+    setIsDeleteModalOpen(false);
+  }
+
 
   return {
     control,
     errors,
     isEditAccountModalOpen,
     accountBeingEdited,
-    isPending,
+    isUpdatePending,
+    isDeletePending,
+    isDeleteModalOpen,
     register,
-    handleSubmit,
+    handleUpdateAccount,
+    handleDeleteAccount,
     closeEditAccountModal,
+    openDeleteModal,
+    closeDeleteModal,
   };
 }

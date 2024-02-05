@@ -1,13 +1,13 @@
 import { api } from '../api';
 
-export interface BankAccountParams {
+export interface CreateBankAccountParams {
   name: string;
 	initialBalance: number;
 	color: string;
 	type: 'INVESTMENT' | 'CHECKING' | 'CASH';
 }
 
-export async function create(params: BankAccountParams) {
+export async function create(params: CreateBankAccountParams) {
   const { data } = await api.post('/bank-accounts', params);
   return data;
 }

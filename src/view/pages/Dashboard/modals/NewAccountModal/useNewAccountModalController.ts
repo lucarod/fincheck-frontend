@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { bankAccountService } from 'src/app/services/bankAccountService';
-import { BankAccountParams } from 'src/app/services/bankAccountService/create';
+import { CreateBankAccountParams } from 'src/app/services/bankAccountService/create';
 
 import { useDashboard } from '../../components/DashboardContext/useDashboard';
 import { queryKeys } from 'src/app/config/queryKeys';
@@ -35,7 +35,7 @@ export function useNewAccountModalController() {
 
   const queryClient = useQueryClient();
   const { isPending, mutateAsync } = useMutation({
-    mutationFn: (data: BankAccountParams) => bankAccountService.create(data),
+    mutationFn: (data: CreateBankAccountParams) => bankAccountService.create(data),
   });
 
   useEffect(() => {
