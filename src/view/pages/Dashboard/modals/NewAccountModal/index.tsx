@@ -12,10 +12,11 @@ import { Controller } from 'react-hook-form';
 export function NewAccountModal() {
   const {
     isNewAccountModalOpen,
-    closeNewAccountModal,
     control,
-    register,
     errors,
+    isPending,
+    register,
+    closeNewAccountModal,
     handleSubmit,
   } = useNewAccountModalController();
 
@@ -79,7 +80,7 @@ export function NewAccountModal() {
 
         </fieldset>
 
-        <Button type="submit" className="w-full mt-6">
+        <Button type="submit" className="w-full mt-6" isPending={isPending}>
           Criar
         </Button>
       </form>
