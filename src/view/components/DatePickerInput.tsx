@@ -9,16 +9,24 @@ import { DatePicker } from './DatePicker';
 interface DatePickerInputProps {
   error?: string;
   className?: string;
+  value?: Date;
+  defaultValue?: Date;
+  onChange?: (date: Date) => void;
 }
 
-export function DatePickerInput({ error, className }: DatePickerInputProps) {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+export function DatePickerInput({ error, className, value, defaultValue, onChange }: DatePickerInputProps) {
+  const [selectedDate, setSelectedDate] = useState(defaultValue ?? new Date());
   const [isDatePickerPopoverOpen, setIsDatePickerPopoverOpen] = useState(false);
 
-  function handleChangeDatePickerValue(date: Date) {
+  function handleChangeDate(date: Date) {
     setSelectedDate(date);
+    onChange?.(date);
     setIsDatePickerPopoverOpen(false);
   }
+
+  const date = value ?? selectedDate;
+
+  console.log({ value, defaultValue, selectedDate, date });
 
   return (
     <div>
@@ -38,13 +46,13 @@ export function DatePickerInput({ error, className }: DatePickerInputProps) {
             )}
           >
             <span className="text-gray-700 text-xs absolute left-[13px] pointer-events-none top-2">
-          Data
+              Data
             </span>
-            <span className="text-gray-800">{formatDate(selectedDate)}</span>
+            <span className="text-gray-800">{formatDate(date)}</span>
           </button>
         </PopoverTrigger>
         <PopoverContent>
-          <DatePicker value={selectedDate} onChange={handleChangeDatePickerValue} />
+          <DatePicker value={date} onChange={handleChangeDate} />
         </PopoverContent>
       </Popover>
       <InputErrorLabel error={error} />

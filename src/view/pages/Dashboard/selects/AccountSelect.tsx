@@ -1,3 +1,4 @@
+import { BankAccount } from 'src/app/entities/BankAccount';
 import { InputErrorLabel } from 'src/view/components/InputErrorLabel';
 
 import {
@@ -12,13 +13,22 @@ import { SelectProvider } from 'src/view/components/Select/SelectContext';
 interface AccountSelectProps {
   type: 'INCOME' | 'EXPENSE' | null;
   error?: string;
+  value?: string;
+  accounts: Pick<BankAccount, 'id' | 'name'>[];
+  onChange?: (value: string) => void;
 }
 
-export function AccountSelect({ type, error }: AccountSelectProps) {
+export function AccountSelect({
+  type,
+  error,
+  value,
+  accounts,
+  onChange,
+}: AccountSelectProps) {
   const isExpense = type === 'EXPENSE';
 
   return (
-    <SelectProvider>
+    <SelectProvider defaultValue={value} onChange={onChange}>
       <Select>
         <SelectTrigger error={error}>
           <SelectValue
@@ -26,12 +36,11 @@ export function AccountSelect({ type, error }: AccountSelectProps) {
           />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="Nubank">
-            Nubank
-          </SelectItem>
-          <SelectItem value="XP Investimentos">
-            XP Investimentos
-          </SelectItem>
+          {accounts.map((account) => (
+            <SelectItem value={account.id} key={account.id}>
+              {account.name}
+            </SelectItem>
+          ))}
         </SelectContent>
       </Select>
 

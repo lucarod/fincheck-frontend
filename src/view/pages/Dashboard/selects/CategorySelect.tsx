@@ -1,3 +1,4 @@
+import { Category } from 'src/app/entities/Category';
 import { InputErrorLabel } from 'src/view/components/InputErrorLabel';
 
 import {
@@ -11,22 +12,29 @@ import { SelectProvider } from 'src/view/components/Select/SelectContext';
 
 interface CategorySelectProps {
   error?: string;
+  value?: string;
+  categories: Pick<Category, 'id' | 'name'>[]
+  onChange?: (value: string) => void;
 }
 
-export function CategorySelect({ error }: CategorySelectProps) {
+export function CategorySelect({
+  error,
+  value,
+  categories,
+  onChange,
+}: CategorySelectProps) {
   return (
-    <SelectProvider>
+    <SelectProvider defaultValue={value} onChange={onChange}>
       <Select>
         <SelectTrigger error={error}>
           <SelectValue placeholder="Categoria"  />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="salary">
-            Salário
-          </SelectItem>
-          <SelectItem value="food">
-            Alimentação
-          </SelectItem>
+          {categories.map((category) => (
+            <SelectItem value={category.id} key={category.id}>
+              {category.name}
+            </SelectItem>
+          ))}
         </SelectContent>
       </Select>
 
