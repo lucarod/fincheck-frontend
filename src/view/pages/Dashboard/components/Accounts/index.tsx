@@ -16,24 +16,25 @@ import { PlusIcon } from '@radix-ui/react-icons';
 export function Accounts() {
   const {
     sliderState,
-    setSliderState,
     slidesPerViewValue,
     areValuesVisible,
+    isFetching,
+    accounts,
+    totalBalance,
+    setSliderState,
     toggleValuesVisibility,
     openNewAccountModal,
-    isLoading,
-    accounts,
   } = useAccountsController();
 
   return (
     <div className="bg-teal-900 rounded-2xl w-full h-full px-4 py-8 md:p-10 flex flex-col">
-      {isLoading && (
+      {isFetching && (
         <div className="flex items-center justify-center h-full">
           <Spinner className="text-teal-950/50 fill-white w-10 h-10" />
         </div>
       )}
 
-      {!isLoading && (
+      {!isFetching && (
         <>
           <header className="flex flex-col gap-2">
             <span className="tracking-[-0.5px] text-white">
@@ -46,7 +47,7 @@ export function Accounts() {
                   !areValuesVisible && 'blur-md'
                 )}
               >
-                {formatCurrency(1000.23)}
+                {formatCurrency(totalBalance)}
               </strong>
               <button
                 onClick={toggleValuesVisibility}
@@ -107,30 +108,13 @@ export function Accounts() {
                     />
                   </div>
 
-                  <SwiperSlide>
-                    <AccountCard
-                      type="CHECKING"
-                      color="#7950F2"
-                      name="Nubank"
-                      balance={1000.23}
-                    />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <AccountCard
-                      type="INVESTMENT"
-                      color="#333"
-                      name="XP Investimentos"
-                      balance={300.57}
-                    />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <AccountCard
-                      type="CASH"
-                      color="#0F0"
-                      name="Carteira"
-                      balance={122.4}
-                    />
-                  </SwiperSlide>
+                  {accounts.map((account) => (
+                    <SwiperSlide key={account.id}>
+                      <AccountCard
+                        bankAccount={account}
+                      />
+                    </SwiperSlide>
+                  ))}
                 </Swiper>
               </div>
             )}
