@@ -33,6 +33,15 @@ export function useTransactionsController() {
     };
   }
 
+  function handleApplyModalFilters(filters: {
+    bankAccountId: string | undefined,
+    year: number
+  }) {
+    handleChangeFilters('bankAccountId')(filters.bankAccountId);
+    handleChangeFilters('year')(filters.year);
+    setIsFiltersModalOpen(false);
+  }
+
   function handleOpenFiltersModal() {
     setIsFiltersModalOpen(true);
   }
@@ -55,5 +64,6 @@ export function useTransactionsController() {
     handleOpenFiltersModal,
     handleCloseFiltersModal,
     handleChangeFilters,
+    handleApplyModalFilters,
   };
 }

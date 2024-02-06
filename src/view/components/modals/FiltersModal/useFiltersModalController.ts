@@ -1,12 +1,18 @@
 import { useState } from 'react';
+import { useBankAccounts } from 'src/app/hooks/useBankAccounts';
 
 export function useFiltersModal() {
-  const [selectedBankAccountId, setSelectedBankAccountId] = useState<null | string>(null);
+  const [
+    selectedBankAccountId,
+    setSelectedBankAccountId,
+  ] = useState<string | undefined>(undefined);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+
+  const { accounts } = useBankAccounts();
 
   function handleSelectBankAccountId(bankAccountId: string) {
     setSelectedBankAccountId(prevState => (
-      prevState === bankAccountId ? null : bankAccountId
+      prevState === bankAccountId ? undefined : bankAccountId
     ));
   }
 
@@ -16,8 +22,9 @@ export function useFiltersModal() {
 
   return {
     selectedBankAccountId,
-    handleSelectBankAccountId,
     selectedYear,
+    accounts,
+    handleSelectBankAccountId,
     handleChangeYear,
   };
 }
