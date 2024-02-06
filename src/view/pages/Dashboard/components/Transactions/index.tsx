@@ -26,6 +26,8 @@ export function Transactions() {
     isLoading,
     transactions,
     isFiltersModalOpen,
+    filters,
+    handleChangeFilters,
     handleOpenFiltersModal,
     handleCloseFiltersModal,
   } = useTransactionsController();
@@ -46,7 +48,12 @@ export function Transactions() {
 
           <header className="">
             <div className="flex items-center justify-between">
-              <TransactionTypeDropdown />
+              <TransactionTypeDropdown
+                selectedType={filters.type}
+                onSelect={type => {
+                  handleChangeFilters('type')(type);
+                }}
+              />
               <button
                 className="w-12 h-12 flex items-center justify-center"
                 onClick={handleOpenFiltersModal}
@@ -59,8 +66,12 @@ export function Transactions() {
                 spaceBetween={16}
                 slidesPerView={3}
                 centeredSlides
+                initialSlide={filters.month}
                 slideToClickedSlide
                 className="px-12 md:px-16"
+                onSlideChange={({ realIndex }) => {
+                  handleChangeFilters('month')(realIndex);
+                }}
               >
                 {MONTHS.map((month, index) => (
                   <SwiperSlide key={month}>
