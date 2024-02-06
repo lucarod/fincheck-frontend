@@ -1,6 +1,6 @@
 import { ComponentProps } from 'react';
 import { cn } from 'src/app/utils/cn';
-import { Spinner } from './Spinner';
+import { Spinner } from '@components/Spinner';
 
 interface ButtonProps extends ComponentProps<'button'> {
   isPending?: boolean;

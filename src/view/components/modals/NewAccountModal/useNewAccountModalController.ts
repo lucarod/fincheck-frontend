@@ -7,15 +7,16 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { bankAccountService } from 'src/app/services/bankAccountService';
 import { CreateBankAccountParams } from 'src/app/services/bankAccountService/create';
-
-import { useDashboard } from '../../components/DashboardContext/useDashboard';
+import { useDashboard } from 'src/app/hooks/useDashboard';
 import { queryKeys } from 'src/app/config/queryKeys';
 
 const schema = z.object({
-  initialBalance: z.number().min(1, 'Saldo inicial é obrigatório'),
+  initialBalance: z.number({ required_error: 'Saldo inicial é obrigatório' }),
   name: z.string().min(1, 'Nome da conta é obrigatório'),
-  type: z.enum(['INVESTMENT', 'CASH', 'CHECKING']),
-  color: z.string().min(1, 'Cor da conta é obrigatório'),
+  type: z.enum(['INVESTMENT', 'CASH', 'CHECKING'], {
+    required_error: 'Tipo de conta é obrigatório',
+  }),
+  color: z.string({ required_error: 'Cor da conta é obrigatório' }),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -29,6 +30,7 @@ export function useNewAccountModalController() {
     formState: { isSubmitSuccessful, errors },
     control,
     reset,
+    clearErrors,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
@@ -55,6 +57,11 @@ export function useNewAccountModalController() {
     }
   });
 
+  function handleCloseModal() {
+    clearErrors();
+    closeNewAccountModal();
+  }
+
   return {
     control,
     errors,
@@ -62,6 +69,6 @@ export function useNewAccountModalController() {
     isPending,
     register,
     handleSubmit,
-    closeNewAccountModal,
+    onCloseModal: handleCloseModal,
   };
 }

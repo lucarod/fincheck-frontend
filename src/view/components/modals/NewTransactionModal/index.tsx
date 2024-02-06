@@ -1,14 +1,14 @@
 import { Controller } from 'react-hook-form';
 
-import { Modal } from 'src/view/components/Modal';
-import { InputCurrency } from 'src/view/components/InputCurrency';
-import { Input } from 'src/view/components/Input';
-import { Button } from 'src/view/components/Button';
-import { DatePickerInput } from 'src/view/components/DatePickerInput';
+import { Modal } from '@components/modals/Modal';
+import { InputCurrency } from '@components/inputs/InputCurrency';
+import { Input } from '@components/inputs/Input';
+import { DatePickerInput } from '@components/inputs/DatePickerInput';
+import { CategorySelect } from '@components/selects/CategorySelect';
+import { AccountSelect } from '@components/selects/AccountSelect';
+import { Button } from '@components/Button';
 
 import { useNewTransactionModalController } from './useNewTransactionModalController';
-import { CategorySelect } from '../../selects/CategorySelect';
-import { AccountSelect } from '../../selects/AccountSelect';
 
 export function NewTransactionModal() {
   const {
@@ -19,7 +19,7 @@ export function NewTransactionModal() {
     accounts,
     categories,
     register,
-    closeNewTransactionModal,
+    onCloseModal,
     handleSubmit,
   } = useNewTransactionModalController();
 
@@ -29,14 +29,14 @@ export function NewTransactionModal() {
     <Modal
       title={isExpense ? 'Nova Despesa' : 'Nova Receita'}
       open={isNewTransactionModalOpen}
-      onClose={closeNewTransactionModal}
+      onClose={onCloseModal}
     >
       <form onSubmit={handleSubmit}>
         <fieldset>
           <span className="text-gray-600 text-xs tracking-[-0.5px]">
             Valor {isExpense ? 'da despesa' : 'da receita' }
           </span>
-          <div className="flex items-center gap-2">
+          <div className="flex gap-2">
             <span className="text-gray-600 text-lg tracking-[-0.5px]">R$</span>
             <Controller
               control={control}
@@ -57,6 +57,7 @@ export function NewTransactionModal() {
             type="text"
             placeholder={isExpense ? 'Nome da despesa' : 'Nome da receita'}
             {...register('name')}
+            error={errors.name?.message}
           />
 
           <Controller

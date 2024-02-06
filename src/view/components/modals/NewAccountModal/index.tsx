@@ -1,13 +1,13 @@
-import { Modal } from 'src/view/components/Modal';
+import { Controller } from 'react-hook-form';
+
+import { Modal } from '@components/modals/Modal';
+import { InputCurrency } from '@components/inputs/InputCurrency';
+import { Input } from '@components/inputs/Input';
+import { ColorsDropdownInput } from '@components/inputs/ColorsDropdownInput';
+import { AccountTypeSelect } from '@components/selects/AccountTypeSelect';
+import { Button } from '@components/Button';
 
 import { useNewAccountModalController } from './useNewAccountModalController';
-import { InputCurrency } from 'src/view/components/InputCurrency';
-import { Input } from 'src/view/components/Input';
-import { ColorsDropdownInput } from 'src/view/components/ColorsDropdownInput';
-
-import { AccountTypeSelect } from '../../selects/AccountTypeSelect';
-import { Button } from 'src/view/components/Button';
-import { Controller } from 'react-hook-form';
 
 export function NewAccountModal() {
   const {
@@ -16,7 +16,7 @@ export function NewAccountModal() {
     errors,
     isPending,
     register,
-    closeNewAccountModal,
+    onCloseModal,
     handleSubmit,
   } = useNewAccountModalController();
 
@@ -24,12 +24,12 @@ export function NewAccountModal() {
     <Modal
       title="Nova conta"
       open={isNewAccountModalOpen}
-      onClose={closeNewAccountModal}
+      onClose={onCloseModal}
     >
       <form onSubmit={handleSubmit}>
         <fieldset>
           <span className="text-gray-600 text-xs tracking-[-0.5px]">Saldo inicial</span>
-          <div className="flex items-center gap-2">
+          <div className="flex gap-2">
             <span className="text-gray-600 text-lg tracking-[-0.5px]">R$</span>
             <Controller
               control={control}

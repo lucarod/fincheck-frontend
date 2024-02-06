@@ -5,15 +5,15 @@ import { cn } from 'src/app/utils/cn';
 import { COLORS } from 'src/app/config/constants';
 import { Color } from 'src/app/config/types';
 
-import { InputErrorLabel } from './InputErrorLabel';
-import { ColorIcon } from './icons/ColorIcon';
+import { InputErrorLabel } from '@components/InputErrorLabel';
+import { ColorIcon } from '@components/icons/ColorIcon';
 
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from './DropdownMenu';
+} from '@components/DropdownMenu';
 
 interface ColorsDropdownInputProps {
   error?: string;

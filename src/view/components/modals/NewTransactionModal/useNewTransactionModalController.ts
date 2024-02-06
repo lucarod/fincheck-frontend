@@ -3,21 +3,21 @@ import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 
 import { transactionsService } from 'src/app/services/transactionsService';
 import { CreateTransactionParams } from 'src/app/services/transactionsService/create';
+
 import { useBankAccounts } from 'src/app/hooks/useBankAccounts';
 import { useCategories } from 'src/app/hooks/useCategories';
-
-import { useDashboard } from '../../components/DashboardContext/useDashboard';
-import toast from 'react-hot-toast';
+import { useDashboard } from 'src/app/hooks/useDashboard';
 import { queryKeys } from 'src/app/config/queryKeys';
 
 const schema = z.object({
   value: z.number().min(1, 'Informe o valor'),
   name: z.string().min(1, 'Informe o nome'),
-  categoryId: z.string().min(1, 'Informe a categoria'),
-  bankAccountId: z.string().min(1, 'Informe a conta'),
+  categoryId: z.string({ required_error: 'Informe a categoria' }),
+  bankAccountId: z.string({ required_error: 'Informe a conta' }),
   date: z.date(),
 });
 
@@ -36,6 +36,7 @@ export function useNewTransactionModalController() {
     formState: { isSubmitSuccessful, errors },
     control,
     reset,
+    clearErrors,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
@@ -63,7 +64,7 @@ export function useNewTransactionModalController() {
           ? 'Despesa cadastrada com sucesso!'
           : 'Receita cadastrada com sucesso!'
       );
-      closeNewTransactionModal();
+      handleCloseModal();
     } catch {
       toast.error(
         newTransactionType === 'EXPENSE'
@@ -78,6 +79,11 @@ export function useNewTransactionModalController() {
       .filter((category) => category.type === newTransactionType);
   }, [categoriesFullList, newTransactionType]);
 
+  function handleCloseModal() {
+    clearErrors();
+    closeNewTransactionModal();
+  }
+
   useEffect(() => {
     reset();
   }, [isSubmitSuccessful]);
@@ -91,7 +97,7 @@ export function useNewTransactionModalController() {
     categories,
     isPending,
     register,
-    closeNewTransactionModal,
+    onCloseModal: handleCloseModal,
     handleSubmit,
   };
 }

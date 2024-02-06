@@ -3,16 +3,19 @@ import * as SelectPrimitive from '@radix-ui/react-select';
 import { ChevronDownIcon } from '@radix-ui/react-icons';
 
 import { cn } from 'src/app/utils/cn';
-import { useSelect } from './SelectContext';
+import { InputErrorLabel } from '@components/InputErrorLabel';
+import { SelectContext, SelectProvider, useSelect } from './SelectContext';
 
 interface SelectRootProps {
   children: ReactNode;
+  defaultValue?: string;
+  error?: string;
+  onChange?: (value: string) => void;
 }
 
 interface SelectTriggerProps {
   children: ReactNode;
   className?: string;
-  error?: string;
 }
 
 interface SelectValueProps {
@@ -34,17 +37,33 @@ interface SelectItemProps {
 
 const SelectGroup = SelectPrimitive.Group;
 
-function Select({ children }: SelectRootProps) {
-  const { selectedValue, handleSelectValue } = useSelect();
-
+function Select({ children, defaultValue, error, onChange }: SelectRootProps) {
   return (
-    <SelectPrimitive.Root onValueChange={handleSelectValue} value={selectedValue}>
-      {children}
-    </SelectPrimitive.Root>
+    <div>
+      <SelectProvider
+        defaultValue={defaultValue}
+        onChange={onChange}
+        error={error}
+      >
+        <SelectContext.Consumer>
+          {({ handleSelectValue, selectedValue }) => (
+            <SelectPrimitive.Root
+              onValueChange={handleSelectValue}
+              value={selectedValue}
+            >
+              {children}
+            </SelectPrimitive.Root>
+          )}
+        </SelectContext.Consumer>
+        <InputErrorLabel error={error} />
+      </SelectProvider>
+    </div>
   );
 }
 
-function SelectTrigger({ children, className, error }: SelectTriggerProps) {
+function SelectTrigger({ children, className }: SelectTriggerProps) {
+  const { error } = useSelect();
+
   return (
     <SelectPrimitive.Trigger
       className={cn(

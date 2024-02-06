@@ -2,8 +2,7 @@ import { useMemo, useState } from 'react';
 
 import { useWindowWidth } from 'src/app/hooks/useWindowWidth';
 import { useBankAccounts } from 'src/app/hooks/useBankAccounts';
-
-import { useDashboard } from '../DashboardContext/useDashboard';
+import { useDashboard } from 'src/app/hooks/useDashboard';
 
 export function useAccountsController() {
   const [sliderState, setSliderState] = useState({

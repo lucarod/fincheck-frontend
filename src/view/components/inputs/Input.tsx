@@ -1,6 +1,6 @@
 import { ComponentProps, forwardRef, ForwardRefRenderFunction } from 'react';
 import { cn } from 'src/app/utils/cn';
-import { InputErrorLabel } from './InputErrorLabel';
+import { InputErrorLabel } from '@components/InputErrorLabel';
 
 interface InputProps extends ComponentProps<'input'> {
   name: string;

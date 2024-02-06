@@ -8,13 +8,14 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { queryKeys } from 'src/app/config/queryKeys';
 import { bankAccountService } from 'src/app/services/bankAccountService';
 import { UpdateBankAccountParams } from 'src/app/services/bankAccountService/update';
-
-import { useDashboard } from '../../components/DashboardContext/useDashboard';
+import { useDashboard } from 'src/app/hooks/useDashboard';
 
 const schema = z.object({
-  name: z.string().min(1, 'Nome da conta é obrigatório'),
-  type: z.enum(['INVESTMENT', 'CASH', 'CHECKING']),
-  color: z.string().min(1, 'Cor da conta é obrigatório'),
+  name: z.string({ required_error: 'Nome da conta é obrigatório' }),
+  type: z.enum(['INVESTMENT', 'CASH', 'CHECKING'], {
+    required_error: 'Tipo de conta é obrigatório',
+  }),
+  color: z.string({ required_error: 'Cor da conta é obrigatório' }),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -34,6 +35,7 @@ export function useEditAccountModalController() {
     formState: { isSubmitSuccessful, errors },
     control,
     reset,
+    clearErrors,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -90,6 +92,11 @@ export function useEditAccountModalController() {
     }
   }
 
+  function handleCloseModal() {
+    clearErrors();
+    closeEditAccountModal();
+  }
+
   function openDeleteModal() {
     setIsDeleteModalOpen(true);
   }
@@ -110,7 +117,7 @@ export function useEditAccountModalController() {
     register,
     handleUpdateAccount,
     handleDeleteAccount,
-    closeEditAccountModal,
+    onCloseModal: handleCloseModal,
     openDeleteModal,
     closeDeleteModal,
   };

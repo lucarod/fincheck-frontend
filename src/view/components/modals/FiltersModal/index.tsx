@@ -1,8 +1,8 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons';
 
 import { cn } from 'src/app/utils/cn';
-import { Button } from 'src/view/components/Button';
-import { Modal } from 'src/view/components/Modal';
+import { Button } from '@components/Button';
+import { Modal } from '@components/modals/Modal';
 
 import { useFiltersModal } from './useFiltersModalController';
 

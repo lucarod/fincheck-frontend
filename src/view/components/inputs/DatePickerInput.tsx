@@ -1,10 +1,10 @@
 import { cn } from 'src/app/utils/cn';
 
-import { InputErrorLabel } from './InputErrorLabel';
+import { InputErrorLabel } from '@components/InputErrorLabel';
 import { useState } from 'react';
 import { formatDate } from 'src/app/utils/formatDate';
-import { Popover, PopoverContent, PopoverTrigger } from './Popover';
-import { DatePicker } from './DatePicker';
+import { Popover, PopoverContent, PopoverTrigger } from '@components/Popover';
+import { DatePicker } from '@components/DatePicker';
 
 interface DatePickerInputProps {
   error?: string;
@@ -25,8 +25,6 @@ export function DatePickerInput({ error, className, value, defaultValue, onChang
   }
 
   const date = value ?? selectedDate;
-
-  console.log({ value, defaultValue, selectedDate, date });
 
   return (
     <div>

@@ -1,6 +1,6 @@
-import { Button } from './Button';
-import { Modal } from './Modal';
-import { TrashIcon } from './icons/TrashIcon';
+import { Modal } from '@components/modals/Modal';
+import { Button } from '@components/Button';
+import { TrashIcon } from '@components/icons/TrashIcon';
 
 interface ConfirmDeleteModalProps {
   title: string;

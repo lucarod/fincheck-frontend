@@ -7,11 +7,10 @@ import { cn } from 'src/app/utils/cn';
 import { formatCurrency } from 'src/app/utils/formatCurrency';
 import emptyState from 'src/assets/empty-state.svg';
 
-import { Spinner } from 'src/view/components/Spinner';
-import { FilterIcon } from 'src/view/components/icons/FilterIcon';
-import { CategoryIcon } from 'src/view/components/icons/categories/CategoryIcon';
-
-import { FiltersModal } from '../../modals/FiltersModal';
+import { Spinner } from '@components/Spinner';
+import { FilterIcon } from '@components/icons/FilterIcon';
+import { CategoryIcon } from '@components/icons/categories/CategoryIcon';
+import { FiltersModal } from '@components/modals/FiltersModal';
 
 import { SliderOption } from './SliderOption';
 import { SliderNavigation } from './SliderNavigation';

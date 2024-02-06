@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { useDashboard } from '../DashboardContext/useDashboard';
+import { useDashboard } from 'src/app/hooks/useDashboard';
 
 export function useTransactionsController() {
   const { areValuesVisible } = useDashboard();

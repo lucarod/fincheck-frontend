@@ -5,7 +5,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from './DropdownMenu';
+} from '@components/DropdownMenu';
 import { useAuth } from 'src/app/hooks/useAuth';
 
 export function UserMenu() {

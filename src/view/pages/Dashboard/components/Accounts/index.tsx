@@ -5,8 +5,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { cn } from 'src/app/utils/cn';
 import { formatCurrency } from 'src/app/utils/formatCurrency';
 
-import { EyeIcon } from 'src/view/components/icons/EyeIcon';
-import { Spinner } from 'src/view/components/Spinner';
+import { EyeIcon } from '@components/icons/EyeIcon';
+import { Spinner } from '@components/Spinner';
 
 import { AccountCard } from './AccountCard';
 import { SliderNavigation } from './SliderNavigation';

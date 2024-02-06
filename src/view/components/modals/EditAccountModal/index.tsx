@@ -3,15 +3,15 @@ import { NumericFormat } from 'react-number-format';
 
 import { cn } from 'src/app/utils/cn';
 
-import { Modal } from 'src/view/components/Modal';
-import { Input } from 'src/view/components/Input';
-import { Button } from 'src/view/components/Button';
-import { ColorsDropdownInput } from 'src/view/components/ColorsDropdownInput';
+import { TrashIcon } from '@components/icons/TrashIcon';
+import { Modal } from '@components/modals/Modal';
+import { Input } from '@components/inputs/Input';
+import { ColorsDropdownInput } from '@components/inputs/ColorsDropdownInput';
+import { AccountTypeSelect } from '@components/selects/AccountTypeSelect';
+import { ConfirmDeleteModal } from '@components/modals/ConfirmDeleteModal';
+import { Button } from '@components/Button';
 
 import { useEditAccountModalController } from './useEditAccountModalController';
-import { AccountTypeSelect } from '../../selects/AccountTypeSelect';
-import { TrashIcon } from 'src/view/components/icons/TrashIcon';
-import { ConfirmDeleteModal } from 'src/view/components/ConfirmDeleteModal';
 
 export function EditAccountModal() {
   const {
@@ -25,7 +25,7 @@ export function EditAccountModal() {
     register,
     handleUpdateAccount,
     handleDeleteAccount,
-    closeEditAccountModal,
+    onCloseModal,
     openDeleteModal,
     closeDeleteModal,
   } = useEditAccountModalController();
@@ -46,7 +46,7 @@ export function EditAccountModal() {
     <Modal
       title="Editar conta"
       open={isEditAccountModalOpen}
-      onClose={closeEditAccountModal}
+      onClose={onCloseModal}
       rightAction={(
         <button onClick={openDeleteModal}>
           <TrashIcon className="w-6 h-6 text-red-900" />

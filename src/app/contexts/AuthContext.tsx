@@ -2,7 +2,7 @@ import { ReactNode, createContext, useCallback, useEffect, useState } from 'reac
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 
-import { LaunchScreen } from 'src/view/components/LaunchScreen';
+import { LaunchScreen } from '@components/LaunchScreen';
 
 import { localStorageKeys } from '../config/localStorageKeys';
 import { queryKeys } from '../config/queryKeys';

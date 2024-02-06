@@ -1,14 +1,14 @@
-import { UserMenu } from 'src/view/components/UserMenu';
-import { Logo } from 'src/view/components/icons/Logo';
+import { DashboardContext, DashboardProvider } from 'src/app/contexts/DashboardContext';
+
+import { UserMenu } from '@components/UserMenu';
+import { Logo } from '@components/icons/Logo';
+import { NewAccountModal } from '@components/modals/NewAccountModal';
+import { NewTransactionModal } from '@components/modals/NewTransactionModal';
+import { EditAccountModal } from '@components/modals/EditAccountModal';
 
 import { Accounts } from './components/Accounts';
 import { Transactions } from './components/Transactions';
-import { DashboardContext, DashboardProvider } from './components/DashboardContext';
 import { Fab } from './components/Fab';
-
-import { NewAccountModal } from './modals/NewAccountModal';
-import { NewTransactionModal } from './modals/NewTransactionModal';
-import { EditAccountModal } from './modals/EditAccountModal';
 
 export function Dashboard() {
   return (

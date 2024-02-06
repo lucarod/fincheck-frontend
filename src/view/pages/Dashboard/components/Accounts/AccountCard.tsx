@@ -1,9 +1,9 @@
-import { formatCurrency } from 'src/app/utils/formatCurrency';
-import { BankAccountTypeIcon } from 'src/view/components/icons/BankAccountTypeIcon';
-import { cn } from 'src/app/utils/cn';
 import { BankAccount } from 'src/app/entities/BankAccount';
+import { useDashboard } from 'src/app/hooks/useDashboard';
+import { cn } from 'src/app/utils/cn';
+import { formatCurrency } from 'src/app/utils/formatCurrency';
 
-import { useDashboard } from '../DashboardContext/useDashboard';
+import { BankAccountTypeIcon } from '@components/icons/BankAccountTypeIcon';
 
 interface AccountCardProps {
   bankAccount: BankAccount;

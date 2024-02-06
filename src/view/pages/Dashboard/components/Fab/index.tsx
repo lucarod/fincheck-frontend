@@ -1,8 +1,16 @@
 import { PlusIcon } from '@radix-ui/react-icons';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from 'src/view/components/DropdownMenu';
-import { BankAccountIcon } from 'src/view/components/icons/BankAccountIcon';
-import { CategoryIcon } from 'src/view/components/icons/categories/CategoryIcon';
-import { useDashboard } from '../DashboardContext/useDashboard';
+
+import { useDashboard } from 'src/app/hooks/useDashboard';
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@components/DropdownMenu';
+
+import { BankAccountIcon } from '@components/icons/BankAccountIcon';
+import { CategoryIcon } from '@components/icons/categories/CategoryIcon';
 
 export function Fab() {
   const { openNewAccountModal, openNewTransactionModal } = useDashboard();

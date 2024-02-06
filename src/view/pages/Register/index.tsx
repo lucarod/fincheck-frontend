@@ -1,6 +1,6 @@
-import { Input } from 'src/view/components/Input';
-import { Button } from 'src/view/components/Button';
-import { AuthFormContainer } from 'src/view/components/AuthFormContainer';
+import { Input } from '@components/inputs/Input';
+import { Button } from '@components/Button';
+import { AuthFormContainer } from '@components/AuthFormContainer';
 
 import { useRegisterController } from './useRegisterController';
 

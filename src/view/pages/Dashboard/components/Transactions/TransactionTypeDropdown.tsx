@@ -1,9 +1,9 @@
 import { ChevronDownIcon } from '@radix-ui/react-icons';
 
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from 'src/view/components/DropdownMenu';
-import { ExpensesIcon } from 'src/view/components/icons/ExpensesIcon';
-import { IncomeIcon } from 'src/view/components/icons/IncomeIcon';
-import { TransactionsIcon } from 'src/view/components/icons/TransactionsIcon';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@components/DropdownMenu';
+import { ExpensesIcon } from '@components/icons/ExpensesIcon';
+import { IncomeIcon } from '@components/icons/IncomeIcon';
+import { TransactionsIcon } from '@components/icons/TransactionsIcon';
 
 export function TransactionTypeDropdown() {
   return (
