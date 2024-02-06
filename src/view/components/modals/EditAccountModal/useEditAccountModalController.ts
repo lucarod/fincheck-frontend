@@ -93,6 +93,7 @@ export function useEditAccountModalController() {
   }
 
   function handleCloseModal() {
+    reset();
     clearErrors();
     closeEditAccountModal();
   }

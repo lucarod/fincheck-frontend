@@ -58,6 +58,7 @@ export function useNewAccountModalController() {
   });
 
   function handleCloseModal() {
+    reset();
     clearErrors();
     closeNewAccountModal();
   }

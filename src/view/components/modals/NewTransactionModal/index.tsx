@@ -18,6 +18,7 @@ export function NewTransactionModal() {
     control,
     accounts,
     categories,
+    isPending,
     register,
     onCloseModal,
     handleSubmit,
@@ -100,7 +101,7 @@ export function NewTransactionModal() {
 
         </fieldset>
 
-        <Button type="submit" className="w-full mt-6">
+        <Button type="submit" className="w-full mt-6" isPending={isPending}>
           Criar
         </Button>
       </form>

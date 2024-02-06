@@ -1,6 +1,7 @@
 export const queryKeys = {
   USERS_ME: ['users', 'me'],
-  BANK_ACCOUNTS: ['bank-accounts'],
   CATEGORIES: ['categories'],
-  TRANSACTIONS: ['transactions'],
+  ACCOUNTS_DATA: ['accounts-data'],
+  BANK_ACCOUNTS: ['accounts-data', 'bank-accounts'],
+  TRANSACTIONS: ['accounts-data', 'transactions'],
 };

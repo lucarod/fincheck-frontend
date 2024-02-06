@@ -1,11 +1,14 @@
 import { useState } from 'react';
 
 import { useDashboard } from 'src/app/hooks/useDashboard';
+import { useTransactions } from 'src/app/hooks/useTransactions';
 
 export function useTransactionsController() {
   const { areValuesVisible } = useDashboard();
 
   const [isFiltersModalOpen, setIsFiltersModalOpen] = useState(false);
+
+  const { transactions, isFetching, isLoading } = useTransactions();
 
   function handleOpenFiltersModal() {
     setIsFiltersModalOpen(true);
@@ -17,9 +20,9 @@ export function useTransactionsController() {
 
   return {
     areValuesVisible,
-    isInitialLoading: false,
-    isLoading: false,
-    transactions: [{}],
+    isInitialLoading: isLoading,
+    isLoading: isFetching,
+    transactions,
     isFiltersModalOpen,
     handleOpenFiltersModal,
     handleCloseFiltersModal,

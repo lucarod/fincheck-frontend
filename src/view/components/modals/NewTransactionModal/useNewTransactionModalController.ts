@@ -57,7 +57,7 @@ export function useNewTransactionModalController() {
         type: newTransactionType!,
       });
       queryClient.invalidateQueries({
-        queryKey: [queryKeys.BANK_ACCOUNTS, queryKeys.TRANSACTIONS],
+        queryKey: queryKeys.ACCOUNTS_DATA,
       });
       toast.success(
         newTransactionType === 'EXPENSE'
@@ -80,6 +80,7 @@ export function useNewTransactionModalController() {
   }, [categoriesFullList, newTransactionType]);
 
   function handleCloseModal() {
+    reset();
     clearErrors();
     closeNewTransactionModal();
   }

@@ -5,6 +5,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { MONTHS } from 'src/app/config/constants';
 import { cn } from 'src/app/utils/cn';
 import { formatCurrency } from 'src/app/utils/formatCurrency';
+import { formatDate } from 'src/app/utils/formatDate';
+
 import emptyState from 'src/assets/empty-state.svg';
 
 import { Spinner } from '@components/Spinner';
@@ -29,6 +31,7 @@ export function Transactions() {
   } = useTransactionsController();
 
   const hasTransactions = !!transactions.length;
+  const canRenderTransactions = hasTransactions && !isLoading;
 
   return (
     <div className="bg-gray-100 rounded-2xl w-full h-full px-4 pt-6 pb-32 md:py-8 lg:p-10 flex flex-col">
@@ -91,50 +94,38 @@ export function Transactions() {
               </div>
             )}
 
-            {(hasTransactions && !isLoading) && (
-              <>
-                <div className="p-4 rounded-2xl bg-white flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-3">
-                    <CategoryIcon type="expense" category="food" />
-                    <div className="flex flex-col">
-                      <b className="font-bold tracking-[-0.5px] text-gray-800">
-                        Almoço
-                      </b>
-                      <small className="font-sm text-gray-600">
-                        04/06/2023
-                      </small>
-                    </div>
+            {canRenderTransactions && transactions.map((transaction) => (
+              <div
+                key={transaction.id}
+                className="p-4 rounded-2xl bg-white flex items-center justify-between gap-4"
+              >
+                <div className="flex items-center gap-3">
+                  <CategoryIcon
+                    type={transaction.type === 'EXPENSE' ? 'expense' : 'income'}
+                    category={transaction.category?.icon}
+                  />
+                  <div className="flex flex-col">
+                    <b className="font-bold tracking-[-0.5px] text-gray-800">
+                      {transaction.name}
+                    </b>
+                    <small className="font-sm text-gray-600">
+                      {formatDate(new Date(transaction.date))}
+                    </small>
                   </div>
-                  <span
-                    className={cn(
-                      'text-red-800 tracking-[-0.5px] font-medium',
-                      !areValuesVisible && 'blur-sm'
-                    )}>
-                    {formatCurrency(100)}
-                  </span>
                 </div>
-                <div className="p-4 rounded-2xl bg-white flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-3">
-                    <CategoryIcon type="expense" category="food" />
-                    <div className="flex flex-col">
-                      <b className="font-bold tracking-[-0.5px] text-gray-800">
-                    Almoço
-                      </b>
-                      <small className="font-sm text-gray-600">
-                    04/06/2023
-                      </small>
-                    </div>
-                  </div>
-                  <span
-                    className={cn(
-                      'text-red-800 tracking-[-0.5px] font-medium',
-                      !areValuesVisible && 'blur-sm'
-                    )}>
-                    {formatCurrency(100)}
-                  </span>
-                </div>
-              </>
-            )}
+                <span
+                  className={cn(
+                    'tracking-[-0.5px] font-medium',
+                    !areValuesVisible && 'blur-sm',
+                    transaction.type === 'INCOME' && 'text-green-800',
+                    transaction.type === 'EXPENSE' && 'text-red-800'
+                  )}
+                >
+                  {transaction.type === 'EXPENSE' ? '-' : '+' }
+                  {formatCurrency(transaction.value)}
+                </span>
+              </div>
+            ))}
           </div>
         </>
       )}
