@@ -46,12 +46,14 @@ export function useEditAccountModalController() {
   });
 
   const queryClient = useQueryClient();
+  // Update Mutation
   const {
     isPending: isUpdatePending,
     mutateAsync: updateAccount,
   } = useMutation({
     mutationFn: (data: UpdateBankAccountParams) => bankAccountService.update(data),
   });
+  // Delete mutation
   const {
     isPending: isDeletePending,
     mutateAsync: removeAccount,

@@ -54,7 +54,7 @@ export function EditAccountModal() {
       )}
     >
       <form onSubmit={handleUpdateAccount}>
-        <div className="flex items-center justify-center gap-2">
+        <div className="flex items-center justify-center gap-2 cursor-default">
           <span className="text-gray-600 text-lg tracking-[-0.5px]">R$</span>
           <NumericFormat
             value={accountBeingEdited?.currentBalance}

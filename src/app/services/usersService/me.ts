@@ -1,11 +1,7 @@
+import { User } from 'src/app/entities/User';
 import { api } from '../api';
 
-interface MeResponse {
-  name: string
-  email: string
-}
-
 export async function me() {
-  const { data } = await api.get<MeResponse>('/users/me');
+  const { data } = await api.get<User>('/users/me');
   return data;
 }

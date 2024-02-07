@@ -20,6 +20,8 @@ export function InputCurrency({ error, onChange, value }: InputCurrencyProps) {
         )}
         thousandSeparator="."
         decimalSeparator=","
+        fixedDecimalScale
+        decimalScale={2}
         onValueChange={(values) => onChange?.(values.floatValue)}
       />
 

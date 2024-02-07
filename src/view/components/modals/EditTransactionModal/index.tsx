@@ -1,4 +1,5 @@
 import { Controller } from 'react-hook-form';
+import { TrashIcon } from '@radix-ui/react-icons';
 
 import { Transaction } from 'src/app/entities/Transaction';
 
@@ -10,6 +11,7 @@ import { CategorySelect } from '@components/selects/CategorySelect';
 import { AccountSelect } from '@components/selects/AccountSelect';
 import { Button } from '@components/Button';
 
+import { ConfirmDeleteModal } from '../ConfirmDeleteModal';
 import { useEditTransactionModalController } from './useEditTransactionModalController';
 
 interface EditTransactionModalProps {
@@ -29,18 +31,41 @@ export function EditTransactionModal({
     accounts,
     categories,
     isPending,
+    isDeleteModalOpen,
+    isDeletePending,
     register,
     handleSubmit,
     handleCloseModal,
+    openDeleteModal,
+    closeDeleteModal,
+    handleDeleteTransaction,
   } = useEditTransactionModalController(transactionBeingEdited, onClose);
 
   const isExpense = transactionBeingEdited.type === 'EXPENSE';
+  const typeText = isExpense ? 'despesa' : 'receita';
+
+
+  if (isDeleteModalOpen) {
+    return (
+      <ConfirmDeleteModal
+        title={`Tem certeza que deseja excluir esta ${typeText}?`}
+        onClose={closeDeleteModal}
+        onConfirm={handleDeleteTransaction}
+        isPending={isDeletePending}
+      />
+    );
+  }
 
   return (
     <Modal
       title={isExpense ? 'Editar Despesa' : 'Editar Receita'}
       open={open}
       onClose={handleCloseModal}
+      rightAction={(
+        <button onClick={openDeleteModal}>
+          <TrashIcon className="w-6 h-6 text-red-900" />
+        </button>
+      )}
     >
       <form onSubmit={handleSubmit}>
         <fieldset>

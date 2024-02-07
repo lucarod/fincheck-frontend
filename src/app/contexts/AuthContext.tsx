@@ -7,8 +7,10 @@ import { LaunchScreen } from '@components/LaunchScreen';
 import { localStorageKeys } from '../config/localStorageKeys';
 import { queryKeys } from '../config/queryKeys';
 import { usersService } from '../services/usersService';
+import { User } from '../entities/User';
 
 interface AuthContextValue {
+  user: User | undefined;
   isSignedIn: boolean;
   signin: (accessToken: string) => void;
   signout: () => void;
@@ -23,6 +25,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
   });
 
   const {
+    data,
     isError,
     isSuccess,
     isFetching,
@@ -57,6 +60,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
 
   return (
     <AuthContext.Provider value={{
+      user: data,
       isSignedIn: isSuccess && isSignedIn,
       signin,
       signout,

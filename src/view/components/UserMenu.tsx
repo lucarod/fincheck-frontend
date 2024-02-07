@@ -9,7 +9,11 @@ import {
 import { useAuth } from 'src/app/hooks/useAuth';
 
 export function UserMenu() {
-  const { signout } = useAuth();
+  const { signout, user } = useAuth();
+  const [firstName, lastName] = user?.name.split(' ') || '';
+  const name = lastName
+    ? `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase()
+    : firstName.slice(0, 2).toUpperCase();
 
   return (
     <DropdownMenu>
@@ -21,7 +25,7 @@ export function UserMenu() {
           <span
             className="text-sm tracking-[-0.5px] text-teal-900 font-medium"
           >
-            LR
+            {name}
           </span>
         </button>
       </DropdownMenuTrigger>

@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -26,6 +26,8 @@ export function useEditTransactionModalController(
   transaction: Transaction,
   onClose: () => void
 ) {
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
   const {
     register,
     handleSubmit: hookFormSubmit,
@@ -45,8 +47,19 @@ export function useEditTransactionModalController(
   });
 
   const queryClient = useQueryClient();
-  const { mutateAsync, isPending } = useMutation({
+  // Update Mutation
+  const {
+    mutateAsync: updateTransaction,
+    isPending: isUpdatePending,
+  } = useMutation({
     mutationFn: (data: UpdateTransactionParams) => transactionsService.update(data),
+  });
+  //Delete Mutation
+  const {
+    mutateAsync: removeTransaction,
+    isPending: isDeletePending,
+  } = useMutation({
+    mutationFn: (transactionId: string) => transactionsService.remove(transactionId),
   });
 
   const { accounts } = useBankAccounts();
@@ -54,7 +67,7 @@ export function useEditTransactionModalController(
 
   const handleSubmit = hookFormSubmit(async (data) => {
     try {
-      await mutateAsync({
+      await updateTransaction({
         ...data,
         id: transaction.id,
         type: transaction.type,
@@ -78,6 +91,27 @@ export function useEditTransactionModalController(
     }
   });
 
+  async function handleDeleteTransaction() {
+    try {
+      await removeTransaction(transaction.id);
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.ACCOUNTS_DATA,
+      });
+      toast.success(
+        transaction.type === 'EXPENSE'
+          ? 'A despesa foi deletada com sucesso!'
+          : 'A receita foi deletada com sucesso!'
+      );
+      onClose();
+    } catch {
+      toast.error(
+        transaction.type === 'EXPENSE'
+          ? 'Erro ao deletar a despesa!'
+          : 'Erro ao deletar a receita!'
+      );
+    }
+  }
+
   const categories = useMemo(() => {
     return categoriesFullList
       .filter((category) => category.type === transaction.type);
@@ -89,14 +123,27 @@ export function useEditTransactionModalController(
     onClose();
   }
 
+  function openDeleteModal() {
+    setIsDeleteModalOpen(true);
+  }
+
+  function closeDeleteModal() {
+    setIsDeleteModalOpen(false);
+  }
+
   return {
     errors,
     control,
     accounts,
     categories,
-    isPending,
+    isDeleteModalOpen,
+    isUpdatePending,
+    isDeletePending,
     register,
     handleCloseModal,
     handleSubmit,
+    openDeleteModal,
+    closeDeleteModal,
+    handleDeleteTransaction,
   };
 }
