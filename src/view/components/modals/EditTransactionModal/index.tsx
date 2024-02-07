@@ -1,5 +1,7 @@
 import { Controller } from 'react-hook-form';
 
+import { Transaction } from 'src/app/entities/Transaction';
+
 import { Modal } from '@components/modals/Modal';
 import { InputCurrency } from '@components/inputs/InputCurrency';
 import { Input } from '@components/inputs/Input';
@@ -10,27 +12,35 @@ import { Button } from '@components/Button';
 
 import { useEditTransactionModalController } from './useEditTransactionModalController';
 
-export function EditTransactionModal() {
+interface EditTransactionModalProps {
+  transactionBeingEdited: Transaction;
+  open: boolean;
+  onClose: () => void;
+}
+
+export function EditTransactionModal({
+  transactionBeingEdited,
+  open,
+  onClose,
+}: EditTransactionModalProps) {
   const {
-    isEditTransactionModalOpen,
-    editTransactionType,
     errors,
     control,
     accounts,
     categories,
     isPending,
     register,
-    onCloseModal,
     handleSubmit,
-  } = useEditTransactionModalController();
+    handleCloseModal,
+  } = useEditTransactionModalController(transactionBeingEdited, onClose);
 
-  const isExpense = editTransactionType === 'EXPENSE';
+  const isExpense = transactionBeingEdited.type === 'EXPENSE';
 
   return (
     <Modal
-      title={isExpense ? 'Nova Despesa' : 'Nova Receita'}
-      open={isEditTransactionModalOpen}
-      onClose={onCloseModal}
+      title={isExpense ? 'Editar Despesa' : 'Editar Receita'}
+      open={open}
+      onClose={handleCloseModal}
     >
       <form onSubmit={handleSubmit}>
         <fieldset>
@@ -78,7 +88,7 @@ export function EditTransactionModal() {
             name="bankAccountId"
             render={({ field: { onChange, value } }) => (
               <AccountSelect
-                type={editTransactionType}
+                type={transactionBeingEdited.type}
                 error={errors.bankAccountId?.message}
                 onChange={onChange}
                 value={value}
@@ -102,7 +112,7 @@ export function EditTransactionModal() {
         </fieldset>
 
         <Button type="submit" className="w-full mt-6" isPending={isPending}>
-          Criar
+          Salvar
         </Button>
       </form>
     </Modal>

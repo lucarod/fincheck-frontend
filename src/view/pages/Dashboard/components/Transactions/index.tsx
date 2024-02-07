@@ -18,6 +18,7 @@ import { SliderOption } from './SliderOption';
 import { SliderNavigation } from './SliderNavigation';
 import { useTransactionsController } from './useTransactionsController';
 import { TransactionTypeDropdown } from './TransactionTypeDropdown';
+import { EditTransactionModal } from 'src/view/components/modals/EditTransactionModal';
 
 export function Transactions() {
   const {
@@ -25,9 +26,13 @@ export function Transactions() {
     isInitialLoading,
     isLoading,
     transactions,
+    transactionBeingEdited,
     isFiltersModalOpen,
+    isEditModalOpen,
     filters,
     handleChangeFilters,
+    handleOpenEditModal,
+    handleCloseEditModal,
     handleOpenFiltersModal,
     handleCloseFiltersModal,
     handleApplyModalFilters,
@@ -46,6 +51,12 @@ export function Transactions() {
         )}
         {!isInitialLoading && (
           <>
+            <FiltersModal
+              open={isFiltersModalOpen}
+              onClose={handleCloseFiltersModal}
+              onApplyFilters={handleApplyModalFilters}
+            />
+
             <header className="">
               <div className="flex items-center justify-between">
                 <TransactionTypeDropdown
@@ -100,53 +111,64 @@ export function Transactions() {
                 <div className="flex flex-col h-full items-center justify-center">
                   <img src={emptyState} alt="Empty State" />
                   <p className="text-gray-700">
-                  Não encontramos nenhuma transação!
+                    Não encontramos nenhuma transação!
                   </p>
                 </div>
               )}
 
-              {canRenderTransactions && transactions.map((transaction) => (
-                <div
-                  key={transaction.id}
-                  className="p-4 rounded-2xl bg-white flex items-center justify-between gap-4"
-                >
-                  <div className="flex items-center gap-3">
-                    <CategoryIcon
-                      type={transaction.type === 'EXPENSE' ? 'expense' : 'income'}
-                      category={transaction.category?.icon}
+              {canRenderTransactions && (
+                <>
+                  {transactionBeingEdited && (
+                    <EditTransactionModal
+                      open={isEditModalOpen}
+                      onClose={handleCloseEditModal}
+                      transactionBeingEdited={transactionBeingEdited}
                     />
-                    <div className="flex flex-col">
-                      <b className="font-bold tracking-[-0.5px] text-gray-800">
-                        {transaction.name}
-                      </b>
-                      <small className="font-sm text-gray-600">
-                        {formatDate(new Date(transaction.date))}
-                      </small>
-                    </div>
-                  </div>
-                  <span
-                    className={cn(
-                      'tracking-[-0.5px] font-medium',
-                      !areValuesVisible && 'blur-sm',
-                      transaction.type === 'INCOME' && 'text-green-800',
-                      transaction.type === 'EXPENSE' && 'text-red-800'
-                    )}
-                  >
-                    {transaction.type === 'EXPENSE' ? '-' : '+' }
-                    {formatCurrency(transaction.value)}
-                  </span>
-                </div>
-              ))}
+                  )}
+
+                  {transactions.map((transaction) => (
+                    <>
+
+                      <div
+                        key={transaction.id}
+                        role="button"
+                        onClick={() => handleOpenEditModal(transaction)}
+                        className="p-4 rounded-2xl bg-white flex items-center justify-between gap-4"
+                      >
+                        <div className="flex items-center gap-3">
+                          <CategoryIcon
+                            type={transaction.type === 'EXPENSE' ? 'expense' : 'income'}
+                            category={transaction.category?.icon}
+                          />
+                          <div className="flex flex-col">
+                            <b className="font-bold tracking-[-0.5px] text-gray-800">
+                              {transaction.name}
+                            </b>
+                            <small className="font-sm text-gray-600">
+                              {formatDate(new Date(transaction.date))}
+                            </small>
+                          </div>
+                        </div>
+                        <span
+                          className={cn(
+                            'tracking-[-0.5px] font-medium',
+                            !areValuesVisible && 'blur-sm',
+                            transaction.type === 'INCOME' && 'text-green-800',
+                            transaction.type === 'EXPENSE' && 'text-red-800'
+                          )}
+                        >
+                          {transaction.type === 'EXPENSE' ? '-' : '+' }
+                          {formatCurrency(transaction.value)}
+                        </span>
+                      </div>
+                    </>
+                  ))}
+                </>
+              )}
             </div>
           </>
         )}
       </div>
-
-      <FiltersModal
-        open={isFiltersModalOpen}
-        onClose={handleCloseFiltersModal}
-        onApplyFilters={handleApplyModalFilters}
-      />
     </>
   );
 }

@@ -1,17 +1,18 @@
 import { useEffect, useMemo } from 'react';
-import { z } from 'zod';
+import toast from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
 
 import { transactionsService } from 'src/app/services/transactionsService';
 import { CreateTransactionParams } from 'src/app/services/transactionsService/create';
-
 import { useBankAccounts } from 'src/app/hooks/useBankAccounts';
 import { useCategories } from 'src/app/hooks/useCategories';
-import { useDashboard } from 'src/app/hooks/useDashboard';
+import { Transaction } from 'src/app/entities/Transaction';
 import { queryKeys } from 'src/app/config/queryKeys';
+import { formatDate } from 'src/app/utils/formatDate';
+
 
 const schema = z.object({
   value: z.number().min(1, 'Informe o valor'),
@@ -23,66 +24,49 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-export function useEditTransactionModalController() {
-  const {
-    isEditTransactionModalOpen,
-    closeEditTransactionModal,
-    editTransactionType,
-  } = useDashboard();
-
+export function useEditTransactionModalController(
+  transaction: Transaction,
+  onClose: () => void
+) {
   const {
     register,
     handleSubmit: hookFormSubmit,
     formState: { isSubmitSuccessful, errors },
     control,
-    reset,
     clearErrors,
+    reset,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
+    defaultValues: {
+      bankAccountId: transaction.bankAccountId,
+      categoryId: transaction.category?.id,
+      name: transaction.name,
+      value: transaction.value,
+      date: transaction ? new Date(transaction.date) : new Date(),
+    },
   });
 
-  const queryClient = useQueryClient();
-  const { mutateAsync, isPending } = useMutation({
-    mutationFn: (data: CreateTransactionParams) => transactionsService.create(data),
-  });
+  // const queryClient = useQueryClient();
+  // const { mutateAsync, isPending } = useMutation({
+  //   mutationFn: (data: CreateTransactionParams) => transactionsService.create(data),
+  // });
 
   const { accounts } = useBankAccounts();
   const { categories: categoriesFullList } = useCategories();
 
   const handleSubmit = hookFormSubmit(async (data) => {
-    try {
-      await mutateAsync({
-        ...data,
-        date: data.date.toISOString(),
-        type: editTransactionType!,
-      });
-      queryClient.invalidateQueries({
-        queryKey: queryKeys.ACCOUNTS_DATA,
-      });
-      toast.success(
-        editTransactionType === 'EXPENSE'
-          ? 'Despesa cadastrada com sucesso!'
-          : 'Receita cadastrada com sucesso!'
-      );
-      handleCloseModal();
-    } catch {
-      toast.error(
-        editTransactionType === 'EXPENSE'
-          ? 'Erro ao cadastrar a despesa'
-          : 'Erro ao cadastrar a receita'
-      );
-    }
+    console.log({ data });
   });
 
   const categories = useMemo(() => {
     return categoriesFullList
-      .filter((category) => category.type === editTransactionType);
-  }, [categoriesFullList, editTransactionType]);
+      .filter((category) => category.type === transaction.type);
+  }, [categoriesFullList, transaction.type]);
 
   function handleCloseModal() {
     reset();
     clearErrors();
-    closeEditTransactionModal();
+    onClose();
   }
 
   useEffect(() => {
@@ -90,15 +74,13 @@ export function useEditTransactionModalController() {
   }, [isSubmitSuccessful]);
 
   return {
-    isEditTransactionModalOpen,
-    editTransactionType,
     errors,
     control,
     accounts,
     categories,
-    isPending,
+    isPending: false,
     register,
-    onCloseModal: handleCloseModal,
+    handleCloseModal,
     handleSubmit,
   };
 }
