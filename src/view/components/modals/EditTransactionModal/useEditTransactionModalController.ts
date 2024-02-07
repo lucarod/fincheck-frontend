@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import toast from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -6,13 +6,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { transactionsService } from 'src/app/services/transactionsService';
-import { CreateTransactionParams } from 'src/app/services/transactionsService/create';
 import { useBankAccounts } from 'src/app/hooks/useBankAccounts';
 import { useCategories } from 'src/app/hooks/useCategories';
 import { Transaction } from 'src/app/entities/Transaction';
 import { queryKeys } from 'src/app/config/queryKeys';
-import { formatDate } from 'src/app/utils/formatDate';
-
+import { UpdateTransactionParams } from 'src/app/services/transactionsService/update';
 
 const schema = z.object({
   value: z.number().min(1, 'Informe o valor'),
@@ -31,7 +29,7 @@ export function useEditTransactionModalController(
   const {
     register,
     handleSubmit: hookFormSubmit,
-    formState: { isSubmitSuccessful, errors },
+    formState: { errors },
     control,
     clearErrors,
     reset,
@@ -46,16 +44,38 @@ export function useEditTransactionModalController(
     },
   });
 
-  // const queryClient = useQueryClient();
-  // const { mutateAsync, isPending } = useMutation({
-  //   mutationFn: (data: CreateTransactionParams) => transactionsService.create(data),
-  // });
+  const queryClient = useQueryClient();
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: (data: UpdateTransactionParams) => transactionsService.update(data),
+  });
 
   const { accounts } = useBankAccounts();
   const { categories: categoriesFullList } = useCategories();
 
   const handleSubmit = hookFormSubmit(async (data) => {
-    console.log({ data });
+    try {
+      await mutateAsync({
+        ...data,
+        id: transaction.id,
+        type: transaction.type,
+        date: data.date.toISOString(),
+      });
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.ACCOUNTS_DATA,
+      });
+      toast.success(
+        transaction.type === 'EXPENSE'
+          ? 'Despesa cadastrada com sucesso!'
+          : 'Receita cadastrada com sucesso!'
+      );
+      handleCloseModal();
+    } catch {
+      toast.error(
+        transaction.type === 'EXPENSE'
+          ? 'Erro ao cadastrar a despesa'
+          : 'Erro ao cadastrar a receita'
+      );
+    }
   });
 
   const categories = useMemo(() => {
@@ -69,16 +89,12 @@ export function useEditTransactionModalController(
     onClose();
   }
 
-  useEffect(() => {
-    reset();
-  }, [isSubmitSuccessful]);
-
   return {
     errors,
     control,
     accounts,
     categories,
-    isPending: false,
+    isPending,
     register,
     handleCloseModal,
     handleSubmit,

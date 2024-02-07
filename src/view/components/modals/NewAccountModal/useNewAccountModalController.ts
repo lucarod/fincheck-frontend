@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
@@ -27,7 +26,7 @@ export function useNewAccountModalController() {
   const {
     register,
     handleSubmit: hookFormSubmit,
-    formState: { isSubmitSuccessful, errors },
+    formState: { errors },
     control,
     reset,
     clearErrors,
@@ -39,10 +38,6 @@ export function useNewAccountModalController() {
   const { isPending, mutateAsync } = useMutation({
     mutationFn: (data: CreateBankAccountParams) => bankAccountService.create(data),
   });
-
-  useEffect(() => {
-    reset();
-  }, [isSubmitSuccessful]);
 
   const handleSubmit = hookFormSubmit(async (data) => {
     try {

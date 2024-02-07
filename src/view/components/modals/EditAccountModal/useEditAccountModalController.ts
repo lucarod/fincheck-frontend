@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
@@ -32,7 +32,7 @@ export function useEditAccountModalController() {
   const {
     register,
     handleSubmit: hookFormSubmit,
-    formState: { isSubmitSuccessful, errors },
+    formState: { errors },
     control,
     reset,
     clearErrors,
@@ -58,10 +58,6 @@ export function useEditAccountModalController() {
   } = useMutation({
     mutationFn: (bankAccountId: string) => bankAccountService.remove(bankAccountId),
   });
-
-  useEffect(() => {
-    reset();
-  }, [isSubmitSuccessful]);
 
   const handleUpdateAccount = hookFormSubmit(async (data) => {
     try {
@@ -105,7 +101,6 @@ export function useEditAccountModalController() {
   function closeDeleteModal() {
     setIsDeleteModalOpen(false);
   }
-
 
   return {
     control,

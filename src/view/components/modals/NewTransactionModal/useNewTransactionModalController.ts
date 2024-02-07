@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -33,7 +33,7 @@ export function useNewTransactionModalController() {
   const {
     register,
     handleSubmit: hookFormSubmit,
-    formState: { isSubmitSuccessful, errors },
+    formState: { errors },
     control,
     reset,
     clearErrors,
@@ -84,10 +84,6 @@ export function useNewTransactionModalController() {
     clearErrors();
     closeNewTransactionModal();
   }
-
-  useEffect(() => {
-    reset();
-  }, [isSubmitSuccessful]);
 
   return {
     isNewTransactionModalOpen,
