@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { useDashboard } from 'src/app/hooks/useDashboard';
 import { useTransactions } from 'src/app/hooks/useTransactions';
@@ -17,7 +17,6 @@ export function useTransactionsController() {
     transactions,
     isFetching,
     isLoading,
-    refetchTransactions,
   } = useTransactions(filters);
 
   function handleChangeFilters<
@@ -49,10 +48,6 @@ export function useTransactionsController() {
   function handleCloseFiltersModal() {
     setIsFiltersModalOpen(false);
   }
-
-  useEffect(() => {
-    refetchTransactions();
-  }, [filters]);
 
   return {
     areValuesVisible,
